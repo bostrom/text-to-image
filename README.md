@@ -30,6 +30,8 @@ The above script will print the full generated data URL to the console.
 
 Copy that line into the address field of your browser and you should see the generated image.
 
+The image generator will adjust the height of the image automatically to fit all text, while the width of the image is fixed to the specified width.
+
 ## Configuring
 
 The ```generate``` function takes an optional second parameter containing configuration options for the image. All configuraion parameters are optional. The available options are as follows.
