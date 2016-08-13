@@ -2,7 +2,7 @@
 
 A library for generating an image data URL representing an image containing the text of your choice.
 
-Originally part of a Twitter bot for publishing tweets longer than 140 characters. The generator takes a string and an optional configuration object as parameter and returns a promise that will resolve to a image data URL (```data:image/png;base64,iVBORw0KGgoAAAA...```)
+Originally part of a Twitter bot for publishing tweets longer than 140 characters. The generator takes a string and an optional configuration object as parameters and returns a [promise](http://bluebirdjs.com/docs/why-promises.html) that will resolve to a image data URL (```data:image/png;base64,iVBORw0KGgoAAAA...```)
 
 ## Installation
 
