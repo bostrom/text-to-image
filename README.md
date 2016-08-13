@@ -1,5 +1,12 @@
 # Text to image
 
+[![Dependency Status](https://img.shields.io/david/bostrom/text-to-image.svg)](https://david-dm.org/bostrom/text-to-image)
+[![devDependency Status](https://img.shields.io/david/dev/bostrom/text-to-image.svg)](https://david-dm.org/bostrom/text-to-image#info=devDependencies)
+[![Build Status](https://img.shields.io/travis/bostrom/text-to-image.svg)](https://travis-ci.org/bostrom/text-to-image)
+[![Code Coverage](https://img.shields.io/coveralls/bostrom/text-to-image.svg)](https://coveralls.io/github/bostrom/text-to-image)
+[![Npm Version](https://img.shields.io/npm/v/text-to-image.svg)](https://www.npmjs.com/package/text-to-image)
+[![License](https://img.shields.io/badge/license-ISC-blue.svg)](https://opensource.org/licenses/ICS)
+
 A library for generating an image data URL representing an image containing the text of your choice.
 
 Originally part of a Twitter bot for publishing tweets longer than 140 characters. The generator takes a string and an optional configuration object as parameters and returns a [promise](http://bluebirdjs.com/docs/why-promises.html) that will resolve to a image data URL (```data:image/png;base64,iVBORw0KGgoAAAA...```)
