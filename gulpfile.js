@@ -14,5 +14,8 @@ gulp.task('test', function () {
 });
 
 gulp.task('default', ['test'], function () {
+});
+
+gulp.task('watch', ['test'], function () {
   gulp.watch(['test/**/*.spec.js', 'lib/**/*.js'], ['test']);
 });

@@ -56,6 +56,10 @@ The library is tested using mocha. Run the test suit by executing
 
     npm test
 
+During development you may want to use the continuous testing task
+
+    gulp watch
+
 A coverage report will be generated in ```coverage/lcov-report/index.html```.
 
 ## Contributing
