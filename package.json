@@ -1,10 +1,11 @@
 {
   "name": "text-to-image",
   "version": "1.0.0",
-  "description": "Converts text as a string to an image containing that text.",
+  "description": "A library for generating an image data URL representing an image containing the text of your choice.",
   "main": "index.js",
   "scripts": {
-    "test": "gulp"
+    "test": "gulp",
+    "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,7 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
     "chai-things": "^0.2.0",
+    "coveralls": "^2.11.12",
     "glob": "^7.0.5",
     "gulp": "^3.9.1",
     "gulp-spawn-mocha": "^3.0.0",
