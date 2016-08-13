@@ -1,0 +1,107 @@
+{
+  ///////////////////////
+  // ENFORCING OPTIONS //
+  ///////////////////////
+
+  // This option requires you to always put curly
+  // braces around blocks in loops and conditionals.
+  "curly": true,
+
+  // This options prohibits the use of == and != in favor of === and !==.
+  "eqeqeq": true,
+
+  // This option prohibits the use of explicitly undeclared variables.
+  "undef": false,
+
+  // This option requires all for in loops to filter object's items.
+  // The for in statement allows for looping through the names of all
+  // of the properties of an object including those inherited
+  // throught the prototype chain.
+  "forin": true,
+
+  // This options prohibits overwriting prototypes of native
+  // objects such as Array, Date and so on.
+  "freeze": true,
+
+  // This option prohibits the use of a variable before it was defined.
+  // This behavior can lead to some very nasty bugs and that's why it is
+  // safer to always use variable only after they have been explicitly defined.
+  // Setting this option to "nofunc" will allow function declarations to be ignored.
+  "latedef": "nofunc",
+
+  // This option prohibits the use of arguments.caller and arguments.callee.
+  "noarg": true,
+
+  // This option requires you to capitalize names of constructor functions.
+  // Capitalizing functions that are intended to be used with new operator
+  // is just a convention that helps programmers to visually distinguish
+  // constructor functions from other types of functions to help
+  // spot mistakes when using this.
+  "newcap": true,
+
+  // This option warns about "non-breaking whitespace" characters.
+  "nonbsp": true,
+
+  // This option prohibits the use of constructor functions for side-effects.
+  // Some people like to call constructor functions without assigning its result to any variable.
+  // There is no advantage in this approach over simply calling MyConstructor
+  // since the object that the operator new creates isn't used anywhere so you
+  // should generally avoid constructors like this one.
+  "nonew": true,
+
+  // This option warns when you define and never use your variables.
+  // It is very useful for general code cleanup, especially when used in addition to undef.
+  // This can be set to vars to only check for variables, not function parameters.
+  // NOTE: Consider settings to "vars"
+  "unused": false,
+
+  // This option requires all functions to run in ECMAScript 5's strict mode.
+  "strict": true,
+
+  // This option makes it an error to leave a trailing whitespace in your code.
+  // Trailing whitespaces can be source of nasty bugs with multi-line strings in JavaScript.
+  "trailing": true,
+
+
+  //////////////////////
+  // RELAXING OPTIONS //
+  //////////////////////
+  // nothing here...
+
+
+  /////////////////////////////////
+  // JSHINT ENVIRONMENT SWITCHES //
+  /////////////////////////////////
+  // This option defines globals exposed by modern browsers:
+  // all the way from good old document and navigator to the
+  // HTML5 FileReader and other new developments in the browser world.
+  "browser": false,
+  // This option defines globals available when your code is running inside
+  // of the Node runtime environment. Node.js is a server-side JavaScript
+  // environment that uses an asynchronous event-driven model.
+  // This option also skips some warnings that make sense in the
+  // browser environments but don't make sense in Node such as
+  // file-level use strict pragmas and console.log statements.
+  "node": true,
+  // This option defines globals that are usually used for
+  // logging poor-man's debugging: console, alert, etc.
+  "devel": false,
+
+
+  //////////////////////////////////
+  // OVERRIDES FOR SUBDIRECTORIES //
+  //////////////////////////////////
+  "overrides": {
+    // overrides for test folders inside src/app
+    // revoke some of the options above
+    "**/test/**/*.spec.js": {
+      "devel": true,
+      "mocha": true,
+      "globals": {
+        "expect": true,
+        "sinon": true
+      },
+      "expr": true
+    }
+  }
+}

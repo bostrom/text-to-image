@@ -1,0 +1,43 @@
+{
+  "name": "text-to-image",
+  "version": "1.0.0",
+  "description": "Converts text as a string to an image containing that text.",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bostrom/text-to-image.git"
+  },
+  "keywords": [
+    "text",
+    "image",
+    "image generator",
+    "text generator",
+    "twitter"
+  ],
+  "author": "Fredrik Boström",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bostrom/text-to-image/issues"
+  },
+  "homepage": "https://github.com/bostrom/text-to-image#readme",
+  "dependencies": {
+    "bluebird": "^3.4.1",
+    "canvas": "^1.4.0",
+    "lodash": "^4.15.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
+    "chai-things": "^0.2.0",
+    "gulp": "^3.9.1",
+    "gulp-spawn-mocha": "^2.2.2",
+    "gulp-util": "^3.0.7",
+    "image-size": "^0.5.0",
+    "mocha": "^2.5.3",
+    "sinon": "^1.17.4",
+    "sinon-chai": "^2.8.0"
+  }
+}
