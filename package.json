@@ -34,10 +34,11 @@
     "chai-things": "^0.2.0",
     "glob": "^7.0.5",
     "gulp": "^3.9.1",
-    "gulp-spawn-mocha": "^2.2.2",
+    "gulp-spawn-mocha": "^3.0.0",
     "gulp-util": "^3.0.7",
     "image-size": "^0.5.0",
-    "mocha": "^2.5.3",
+    "istanbul": "^0.4.4",
+    "mocha": "^3.0.0",
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0"
   }
