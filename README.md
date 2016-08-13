@@ -15,6 +15,8 @@ Originally part of a Twitter bot for publishing tweets longer than 140 character
 
     npm install text-to-image     // --save to add it as dependency in your package.json
 
+Note that text-to-image uses [node-canvas](https://github.com/Automattic/node-canvas) to generate images. For text-to-image to install, you might have to fulfill the [installation requirements for node-canvas](https://github.com/Automattic/node-canvas#installation). Please refer to their documentation for instructions.
+
 ## Usage
 
     var textToImage = require('text-to-image');
