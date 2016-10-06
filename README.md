@@ -1,7 +1,6 @@
 # Text to image
 
 [![Join the chat at https://gitter.im/bostrom/text-to-image](https://badges.gitter.im/bostrom/text-to-image.svg)](https://gitter.im/bostrom/text-to-image?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 [![Dependency Status](https://img.shields.io/david/bostrom/text-to-image.svg)](https://david-dm.org/bostrom/text-to-image)
 [![devDependency Status](https://img.shields.io/david/dev/bostrom/text-to-image.svg)](https://david-dm.org/bostrom/text-to-image#info=devDependencies)
 [![Build Status](https://img.shields.io/travis/bostrom/text-to-image.svg)](https://travis-ci.org/bostrom/text-to-image)
@@ -82,4 +81,3 @@ Pull requests are welcome. Read the [Contributing guidelines](./CONTRIBUTING.md)
 ## License
 
 [ISC License (ISC)](./LICENSE)
-
