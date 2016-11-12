@@ -34,6 +34,7 @@
     "chai-as-promised": "^5.3.0",
     "chai-things": "^0.2.0",
     "coveralls": "^2.11.12",
+    "eslint": "^3.10.0",
     "glob": "^7.0.5",
     "gulp": "^3.9.1",
     "gulp-spawn-mocha": "^3.0.0",
