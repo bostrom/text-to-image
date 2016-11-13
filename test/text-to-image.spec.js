@@ -9,7 +9,8 @@ describe("the text-to-image generator", function () {
     fs = require('fs'),
     path = require('path'),
     sizeOf = require('image-size'),
-    readimage = require('readimage');
+    readimage = require('readimage'),
+    extractColors = require('./helpers/extractColors');
 
   beforeEach(function () {
     imageGenerator = require('../lib/text-to-image');
@@ -102,16 +103,17 @@ describe("the text-to-image generator", function () {
     ]).then(function () {
       var images = glob.sync(path.join(process.cwd(), '*.png'));
       var imageData = fs.readFileSync(images[0]);
-      return new Promise(function(resolve, reject) {
-        readimage(imageData, function(err, image) {
-          if( err ) {
+
+      return new Promise(function (resolve, reject) {
+        readimage(imageData, function (err, image) {
+          if (err) {
             reject(err);
           } else {
             resolve(image);
           }
-        })
+        });
       });
-    }).then(function(image) {
+    }).then(function (image) {
       expect(image.frames.length).to.equal(1);
       expect(image.frames[0].data[0]).to.equals(0xff);
       expect(image.frames[0].data[1]).to.equals(0xff);
@@ -129,16 +131,17 @@ describe("the text-to-image generator", function () {
     ]).then(function () {
       var images = glob.sync(path.join(process.cwd(), '*.png'));
       var imageData = fs.readFileSync(images[0]);
-      return new Promise(function(resolve, reject) {
-        readimage(imageData, function(err, image) {
-          if( err ) {
+
+      return new Promise(function (resolve, reject) {
+        readimage(imageData, function (err, image) {
+          if (err) {
             reject(err);
           } else {
             resolve(image);
           }
-        })
+        });
       });
-    }).then(function(image) {
+    }).then(function (image) {
       expect(image.frames.length).to.equal(1);
       expect(image.frames[0].data[0]).to.equals(0x00);
       expect(image.frames[0].data[1]).to.equals(0x11);
@@ -150,6 +153,7 @@ describe("the text-to-image generator", function () {
   it("should default to a black text color", function () {
     var WIDTH = 720;
     var HEIGHT = 220;
+
     return Promise.all([
       imageGenerator.generate('Lorem ipsum dolor sit amet.', {
         debug: true,
@@ -161,29 +165,31 @@ describe("the text-to-image generator", function () {
       var images = glob.sync(path.join(process.cwd(), '*.png'));
       var dimensions = sizeOf(images[0]);
       expect(dimensions.width).to.equals(WIDTH);
-      expect(dimensions.height).to.equals(220);
+      expect(dimensions.height).to.equals(HEIGHT);
       var imageData = fs.readFileSync(images[0]);
-      return new Promise(function(resolve, reject) {
-        readimage(imageData, function(err, image) {
-          if( err ) {
+
+      return new Promise(function (resolve, reject) {
+        readimage(imageData, function (err, image) {
+          if (err) {
             reject(err);
           } else {
             resolve(image);
           }
-        })
+        });
       });
-    }).then(function(image) {
+    }).then(function (image) {
       var map = extractColors(image);
       // GIMP reports 256 colors on this image
-      expect(map.size).to.be.within(2,256);
-      expect(map.get('#000000')).to.be.above(10);
-      expect(map.get('#ffffff')).to.be.above(100);
+      expect(Object.keys(map).length).to.be.within(2, 256);
+      expect(map['#000000']).to.be.above(10);
+      expect(map['#ffffff']).to.be.above(100);
     });
   });
 
   it("should use the text color specified", function () {
     var WIDTH = 720;
     var HEIGHT = 220;
+
     return Promise.all([
       imageGenerator.generate('Lorem ipsum dolor sit amet.', {
         debug: true,
@@ -196,23 +202,24 @@ describe("the text-to-image generator", function () {
       var images = glob.sync(path.join(process.cwd(), '*.png'));
       var dimensions = sizeOf(images[0]);
       expect(dimensions.width).to.equals(WIDTH);
-      expect(dimensions.height).to.equals(220);
+      expect(dimensions.height).to.equals(HEIGHT);
       var imageData = fs.readFileSync(images[0]);
-      return new Promise(function(resolve, reject) {
-        readimage(imageData, function(err, image) {
-          if( err ) {
+
+      return new Promise(function (resolve, reject) {
+        readimage(imageData, function (err, image) {
+          if (err) {
             reject(err);
           } else {
             resolve(image);
           }
-        })
+        });
       });
-    }).then(function(image) {
+    }).then(function (image) {
       var map = extractColors(image);
       // GIMP reports 256 colors on this image
-      expect(map.size).to.be.within(2,256);
-      expect(map.get('#112233')).to.be.above(10);
-      expect(map.get('#ffffff')).to.be.above(100);
+      expect(Object.keys(map).length).to.be.within(2, 256);
+      expect(map['#112233']).to.be.above(10);
+      expect(map['#ffffff']).to.be.above(100);
     });
   });
 
