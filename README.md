@@ -44,6 +44,8 @@ The ```generate``` function takes an optional second parameter containing config
 | lineHeight | 28            | The line height for the generated text.                              |
 | margin     | 10            | The margin (all sides) between the text and the border of the image. |
 | debug      | false         | Set to true to turn on debug mode (see below).                       |
+| bgColor    | `"#FFFFFF"`   | Sets the background color of the image.                              |
+| textColor  | `"#000000"`   | Sets the text color.                                                 |
 
 Example:
 
@@ -53,7 +55,9 @@ Example:
       maxWidth: 720,
       fontSize: 18,
       lineHeight: 30,
-      margin: 5
+      margin: 5,
+      bgColor: "blue",
+      textColor: "red"
     }).then(function (dataUri) {
       console.log(dataUri);
     });
