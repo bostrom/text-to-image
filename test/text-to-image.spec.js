@@ -70,6 +70,44 @@ describe("the text-to-image generator", function () {
     });
   });
 
+  it("should create a new lines when a \\n occurrs", function () {
+    return Promise.all([
+      imageGenerator.generate('Hello world', {
+        debug: true
+      }),
+      imageGenerator.generate('Hello world\nhello again', {
+        debug: true
+      })
+    ]).then(function () {
+      var images = glob.sync(path.join(process.cwd(), '*.png'));
+      // expect(images).to.have.lengthOf(2);
+      var dimensions1 = sizeOf(images[0]);
+      var dimensions2 = sizeOf(images[1]);
+      expect(dimensions1.height).to.be.above(0);
+      expect(dimensions1.height).to.be.below(dimensions2.height);
+      expect(dimensions1.width).to.equal(dimensions2.width);
+    });
+  });
+
+  it("should create a new lines when a multiple \\n occurrs", function () {
+    return Promise.all([
+      imageGenerator.generate('Hello world\nhello again', {
+        debug: true
+      }),
+      imageGenerator.generate('Hello world\n\n\nhello again', {
+        debug: true
+      })
+    ]).then(function () {
+      var images = glob.sync(path.join(process.cwd(), '*.png'));
+      // expect(images).to.have.lengthOf(2);
+      var dimensions1 = sizeOf(images[0]);
+      var dimensions2 = sizeOf(images[1]);
+      expect(dimensions1.height).to.be.above(0);
+      expect(dimensions1.height).to.be.below(dimensions2.height);
+      expect(dimensions1.width).to.equal(dimensions2.width);
+    });
+  });
+
   it("should default to a 400 px wide image", function () {
     return Promise.all([
       imageGenerator.generate('Lorem ipsum dolor sit amet.', {

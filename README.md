@@ -33,6 +33,8 @@ Copy that line into the address field of your browser and you should see the gen
 
 The image generator will adjust the height of the image automatically to fit all text, while the width of the image is fixed to the specified width.
 
+Line breaks can be forced with `\n`.
+
 ## Configuring
 
 The ```generate``` function takes an optional second parameter containing configuration options for the image. All configuraion parameters are optional. The available options are as follows.
