@@ -1,6 +1,12 @@
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/bostrom/text-to-image/compare/v1.1.0...v1.2.0) (2018-02-13)
+
+### Features
+
+* Add font family support, thanks [nikonieminen](https://github.com/nikonieminen) ([da79f11](https://github.com/bostrom/text-to-image/commit/da79f11))
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/bostrom/text-to-image/compare/v1.0.1...v1.1.0) (2016-11-19)
-
 
 ### Features
 

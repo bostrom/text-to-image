@@ -43,6 +43,7 @@ The ```generate``` function takes an optional second parameter containing config
 | ---------- | ------------- | -------------------------------------------------------------------- |
 | maxWidth   | 400           | Sets the width of the generated image in pixels.                     |
 | fontSize   | 18            | The font size to use for the text in the image.                      |
+| fontFamily | Helvetica     | The font family to use for the text in the image.                    |
 | lineHeight | 28            | The line height for the generated text.                              |
 | margin     | 10            | The margin (all sides) between the text and the border of the image. |
 | debug      | false         | Set to true to turn on debug mode (see below).                       |
@@ -56,6 +57,7 @@ Example:
       debug: true,
       maxWidth: 720,
       fontSize: 18,
+      fontFamily: 'Arial',
       lineHeight: 30,
       margin: 5,
       bgColor: "blue",
