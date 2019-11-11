@@ -26,7 +26,7 @@
   "homepage": "https://github.com/bostrom/text-to-image#readme",
   "dependencies": {
     "bluebird": "^3.4.1",
-    "canvas": "^1.4.0",
+    "canvas": "latest",
     "lodash": "^4.15.0"
   },
   "devDependencies": {
