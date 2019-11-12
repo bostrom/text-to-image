@@ -20,7 +20,7 @@ Note that text-to-image uses [node-canvas](https://github.com/Automattic/node-ca
 
 ## Usage
 
-    var textToImage = require('text-to-image');
+    const textToImage = require('text-to-image');
     textToImage.generate('Lorem ipsum dolor sit amet').then(function (dataUri) {
       console.log(dataUri);
     });
@@ -52,7 +52,7 @@ The `generate` function takes an optional second parameter containing configurat
 
 Example:
 
-    var textToImage = require('text-to-image');
+    const textToImage = require('text-to-image');
     textToImage.generate('Lorem ipsum dolor sit amet', {
       debug: true,
       maxWidth: 720,
