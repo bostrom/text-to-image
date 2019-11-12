@@ -1,3 +1,11 @@
+<a name="2.1.0"></a>
+
+# [2.1.0](https://github.com/bostrom/text-to-image/compare/v2.0.0...v2.1.0) (2019-11-13)
+
+### Features
+
+- Add `fontWeight` and `customHeight` options, thanks [gtallest](https://github.com/gtallest)
+
 <a name="2.0.0"></a>
 
 # [2.0.0](https://github.com/bostrom/text-to-image/compare/v1.2.0...v2.0.0) (2019-11-12)
