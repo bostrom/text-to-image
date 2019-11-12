@@ -1,18 +1,23 @@
-"use strict";
+function paddedHex(intVal) {
+  let s = intVal.toString(16);
+  if (s.length === 1) {
+    s = `0${s}`;
+  }
 
-module.exports = extractColors;
+  return s;
+}
 
 function extractColors(image) {
-  var pixels = image.frames[0].data;
-  var colorMap = {};
-  for (var i = 0; i < pixels.length; i += 4) {
-    var r = pixels[i],
-      g = pixels[i + 1],
-      b = pixels[i + 2];
-      // a = pixels[i + 3]
+  const pixels = image.frames[0].data;
+  const colorMap = {};
+  for (let i = 0; i < pixels.length; i += 4) {
+    const r = pixels[i];
+    const g = pixels[i + 1];
+    const b = pixels[i + 2];
+    // a = pixels[i + 3]
 
-    var hexNotation = '#' + paddedHex(r) + paddedHex(g) + paddedHex(b);
-    var currValue = colorMap[hexNotation];
+    const hexNotation = `#${paddedHex(r)}${paddedHex(g)}${paddedHex(b)}`;
+    let currValue = colorMap[hexNotation];
     if (currValue) {
       currValue += 1;
     } else {
@@ -24,11 +29,4 @@ function extractColors(image) {
   return colorMap;
 }
 
-function paddedHex(intVal) {
-  var s = intVal.toString(16);
-  if (s.length === 1) {
-    s = "0" + s;
-  }
-
-  return s;
-}
+module.exports = extractColors;

@@ -4,8 +4,7 @@
   "description": "A library for generating an image data URI representing an image containing the text of your choice.",
   "main": "index.js",
   "scripts": {
-    "test": "gulp",
-    "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha --report lcovonly -- -R spec test/*"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -25,25 +24,36 @@
   },
   "homepage": "https://github.com/bostrom/text-to-image#readme",
   "dependencies": {
-    "bluebird": "^3.4.1",
-    "canvas": "latest",
-    "lodash": "^4.15.0"
+    "canvas": "latest"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "chai-as-promised": "^5.3.0",
-    "chai-things": "^0.2.0",
-    "coveralls": "^2.11.12",
-    "eslint": "^3.10.0",
+    "coveralls": "^3.0.7",
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-config-motley": "^11.1.1",
+    "eslint-config-prettier": "^3.6.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "0.0.0",
     "glob": "^7.0.5",
-    "gulp": "^3.9.1",
-    "gulp-spawn-mocha": "^3.0.0",
-    "gulp-util": "^3.0.7",
-    "image-size": "^0.5.0",
-    "istanbul": "^0.4.4",
-    "mocha": "^3.0.0",
-    "readimage": "^1.1.1",
-    "sinon": "^1.17.4",
-    "sinon-chai": "^2.8.0"
+    "husky": "^1.3.1",
+    "image-size": "^0.8.3",
+    "jest": "^24.9.0",
+    "lint-staged": "^8.2.1",
+    "prettier": "^1.19.1",
+    "readimage": "^1.1.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,graphql,md,css,scss,less,ts}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
