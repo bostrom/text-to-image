@@ -2,27 +2,28 @@
   "name": "text-to-image",
   "version": "1.2.0",
   "description": "A library for generating an image data URI representing an image containing the text of your choice.",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest --coverage"
-  },
+  "author": "Fredrik Boström",
+  "homepage": "https://github.com/bostrom/text-to-image#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bostrom/text-to-image.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bostrom/text-to-image/issues"
   },
   "keywords": [
     "text",
     "image",
     "image generator",
     "text generator",
+    "canvas",
     "twitter"
   ],
-  "author": "Fredrik Boström",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/bostrom/text-to-image/issues"
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage"
   },
-  "homepage": "https://github.com/bostrom/text-to-image#readme",
   "dependencies": {
     "canvas": "latest"
   },

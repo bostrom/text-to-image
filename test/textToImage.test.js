@@ -4,7 +4,7 @@ const path = require('path');
 const sizeOf = require('image-size');
 const readimage = require('readimage');
 const extractColors = require('./helpers/extractColors');
-const imageGenerator = require('../lib/text-to-image');
+const imageGenerator = require('../lib/textToImage');
 
 describe('the text-to-image generator', () => {
   afterEach(() => {
