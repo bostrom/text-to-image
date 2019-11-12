@@ -25,7 +25,7 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "canvas": "latest"
+    "canvas": "^2.6.0"
   },
   "devDependencies": {
     "coveralls": "^3.0.7",
