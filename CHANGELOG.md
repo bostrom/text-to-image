@@ -2,7 +2,7 @@
 
 # [2.0.0](https://github.com/bostrom/text-to-image/compare/v1.2.0...v2.0.0) (2019-11-12)
 
-- Upgrade dependencies (thanks @jlei523)
+- Upgrade dependencies, thanks [jlei523](https://github.com/jlei523)
 - Update code base to 2019 standard
   - ES6
   - Jest

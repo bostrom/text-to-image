@@ -10,11 +10,11 @@
 
 A library for generating an image data URI representing an image containing the text of your choice.
 
-Originally part of a Twitter bot for publishing tweets longer than 140 characters, the generator takes a string and an optional configuration object as parameters and returns a [promise](http://bluebirdjs.com/docs/why-promises.html) that will resolve to a image data URI (```data:image/png;base64,iVBORw0KGgoAAAA...```)
+Originally part of a Twitter bot for publishing tweets longer than 140 characters, the generator takes a string and an optional configuration object as parameters and returns a [promise](http://bluebirdjs.com/docs/why-promises.html) that will resolve to a image data URI (`data:image/png;base64,iVBORw0KGgoAAAA...`)
 
 ## Installation
 
-    npm install text-to-image     // --save to add it as dependency in your package.json
+    npm i text-to-image
 
 Note that text-to-image uses [node-canvas](https://github.com/Automattic/node-canvas) to generate images. For text-to-image to install, you might have to fulfill the [installation requirements for node-canvas](https://github.com/Automattic/node-canvas#installation). Please refer to their documentation for instructions.
 
@@ -37,9 +37,9 @@ Line breaks can be forced with `\n`.
 
 ## Configuring
 
-The ```generate``` function takes an optional second parameter containing configuration options for the image. All configuraion parameters are optional. The available options are as follows.
+The `generate` function takes an optional second parameter containing configuration options for the image. All configuraion parameters are optional. The available options are as follows.
 
-|    Name    | Default value |                             Description                              |
+| Name       | Default value | Description                                                          |
 | ---------- | ------------- | -------------------------------------------------------------------- |
 | maxWidth   | 400           | Sets the width of the generated image in pixels.                     |
 | fontSize   | 18            | The font size to use for the text in the image.                      |
@@ -72,15 +72,11 @@ Turn on debug mode to have the library store the generated image data URI as a P
 
 ## Test
 
-The library is tested using mocha. Run the test suit by executing
+The library is tested using Jest. Run the test suit by executing
 
     npm test
 
-During development you may want to use the continuous testing task
-
-    gulp watch
-
-A coverage report will be generated in ```coverage/lcov-report/index.html```.
+A coverage report will be generated in `coverage/`.
 
 ## Contributing
 
