@@ -1,1 +1,1 @@
-module.exports = require('./lib/text-to-image');
+module.exports = require('./lib/textToImage');
