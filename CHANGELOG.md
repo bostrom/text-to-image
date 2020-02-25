@@ -1,3 +1,15 @@
+<a name="2.2.0"></a>
+
+# [2.2.0](https://github.com/bostrom/text-to-image/compare/v2.1.1...v2.2.0) (2020-02-25)
+
+### Features
+
+- Add `textAlign` option thanks [dizzyluo](https://github.com/dizzyluo) ([a395105](https://github.com/bostrom/text-to-image/commit/a395105))
+
+### Chores
+
+- Update dependencies
+
 <a name="2.1.1"></a>
 
 # [2.1.1](https://github.com/bostrom/text-to-image/compare/v2.1.0...v2.1.1) (2019-11-25)
