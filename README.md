@@ -46,12 +46,13 @@ The `generate` function takes an optional second parameter containing configurat
 | fontFamily    | Helvetica     | The font family to use for the text in the image.                                                                                |
 | fontWeight    | normal        | The font weight to use for the text in the image.                                                                                |
 | lineHeight    | 28            | The line height for the generated text.                                                                                          |
+| textAlign     | left          | The text alignment for the generated text (possible values: left, start, center, right, end).                                    |
 | margin        | 10            | The margin (all sides) between the text and the border of the image.                                                             |
-| debug         | false         | Set to true to turn on debug mode (see below).                                                                                   |
-| debugFilename | timestamp     | Set a custom file name for the file created in debug mode. Defaults to a timestamp with a `.png` extension.                      |
 | bgColor       | #FFFFFF       | Sets the background color of the image.                                                                                          |
 | textColor     | #000000       | Sets the text color.                                                                                                             |
 | customHeight  | 0             | Sets the height of the generated image in pixels. If falsy, will automatically calculate the height based on the amount of text. |
+| debug         | false         | Set to true to turn on debug mode (see below).                                                                                   |
+| debugFilename | timestamp     | Set a custom file name for the file created in debug mode. Defaults to a timestamp with a `.png` extension.                      |
 
 Example:
 
