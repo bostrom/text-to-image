@@ -239,4 +239,48 @@ describe('the text-to-image generator', () => {
     expect(boldMap['#000000']).toBeGreaterThan(normalMap['#000000']);
     expect(boldMap['#ffffff']).toBeLessThan(normalMap['#ffffff']);
   });
+
+  it('should support aligning text', async () => {
+    await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+      debug: true,
+      debugFilename: '1_right_align.png',
+      textAlign: 'right',
+    });
+    await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+      debug: true,
+      debugFilename: '2_center_align.png',
+      textAlign: 'center',
+    });
+    await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+      debug: true,
+      debugFilename: '3_left_align.png',
+      textAlign: 'left',
+    });
+
+    const images = glob.sync(path.join(process.cwd(), '*.png'));
+    const rightAlignImg = fs.readFileSync(images[0]);
+    const rightAlignData = await readImageData(rightAlignImg);
+    const centerAlignImg = fs.readFileSync(images[1]);
+    const centerAlignData = await readImageData(centerAlignImg);
+    const leftAlignImg = fs.readFileSync(images[2]);
+    const leftAlignData = await readImageData(leftAlignImg);
+
+    // expect the pixel at top: 19, left: 13 to have text
+    expect(rightAlignData.frames[0].data[400 * 19 * 4 - 13 * 4]).not.toEqual(
+      0xff,
+    );
+    // expect the pixel at top: 19, right: 13 to not have text
+    expect(rightAlignData.frames[0].data[400 * 19 * 4 + 13 * 4]).toEqual(0xff);
+
+    expect(centerAlignData.frames[0].data[400 * 19 * 4 - 13 * 4]).toEqual(0xff);
+    expect(centerAlignData.frames[0].data[400 * 19 * 4 - 206 * 4]).not.toEqual(
+      0xff,
+    );
+    expect(centerAlignData.frames[0].data[400 * 19 * 4 + 13 * 4]).toEqual(0xff);
+
+    expect(leftAlignData.frames[0].data[400 * 19 * 4 - 13 * 4]).toEqual(0xff);
+    expect(leftAlignData.frames[0].data[400 * 19 * 4 + 13 * 4]).not.toEqual(
+      0xff,
+    );
+  });
 });
