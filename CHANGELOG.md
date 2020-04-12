@@ -1,3 +1,21 @@
+<a name="master"></a>
+
+# Not released
+
+See [commits since last release](https://github.com/bostrom/text-to-image/compare/v2.3.0...master).
+
+<a name="2.3.0"></a>
+
+# [2.3.0](https://github.com/bostrom/text-to-image/compare/v2.2.1...v2.3.0) (2020-04-12)
+
+### Features
+
+- Add synchronous API, thanks [alyip98](https://github.com/alyip98) ([#34](https://github.com/bostrom/text-to-image/pull/34))
+
+### Chores
+
+- Update dependencies
+
 <a name="2.2.0"></a>
 
 # [2.2.0](https://github.com/bostrom/text-to-image/compare/v2.1.1...v2.2.0) (2020-02-25)
