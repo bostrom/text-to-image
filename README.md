@@ -12,6 +12,8 @@ A library for generating an image data URI representing an image containing the 
 
 Originally part of a Twitter bot for publishing tweets longer than 140 characters, the generator takes a string and an optional configuration object as parameters and returns a [promise](http://bluebirdjs.com/docs/why-promises.html) that will resolve to a image data URI (`data:image/png;base64,iVBORw0KGgoAAAA...`)
 
+There is also a synchronous variant that returns the data URI directly.
+
 ## Installation
 
     npm i text-to-image
@@ -37,7 +39,7 @@ Line breaks can be forced with `\n`.
 
 ## Configuring
 
-The `generate` function takes an optional second parameter containing configuration options for the image. All configuraion parameters are optional. The available options are as follows.
+The `generate` and `generateSync` function takes an optional second parameter containing configuration options for the image. All configuraion parameters are optional. The available options are as follows.
 
 | Name          | Default value | Description                                                                                                                      |
 | :------------ | :------------ | :------------------------------------------------------------------------------------------------------------------------------- |
