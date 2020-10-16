@@ -1,8 +1,8 @@
 <a name="master"></a>
 
-# Not released
+# Changelog moved to Github Releases
 
-See [commits since last release](https://github.com/bostrom/text-to-image/compare/v2.3.0...master).
+See the [Releases page](https://github.com/bostrom/text-to-image/releases) for newer versions.
 
 <a name="2.3.0"></a>
 
