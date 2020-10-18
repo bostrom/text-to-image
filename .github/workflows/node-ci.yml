@@ -20,4 +20,20 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm test
-      - run: cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+
+      - name: Coveralls Parallel
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          flag-name: run-${{ matrix.node-version }}
+          parallel: true
+
+    finish:
+      needs: test
+      runs-on: ubuntu-latest
+      steps:
+        - name: Coveralls Finished
+          uses: coverallsapp/github-action@master
+          with:
+            github-token: ${{ secrets.github_token }}
+            parallel-finished: true
