@@ -43,18 +43,19 @@ The `generate` and `generateSync` function takes an optional second parameter co
 
 | Name          | Default value | Description                                                                                                                      |
 | :------------ | :------------ | :------------------------------------------------------------------------------------------------------------------------------- |
-| maxWidth      | 400           | Sets the width of the generated image in pixels.                                                                                 |
-| fontSize      | 18            | The font size to use for the text in the image.                                                                                  |
-| fontFamily    | Helvetica     | The font family to use for the text in the image.                                                                                |
-| fontWeight    | normal        | The font weight to use for the text in the image.                                                                                |
-| lineHeight    | 28            | The line height for the generated text.                                                                                          |
-| textAlign     | left          | The text alignment for the generated text (possible values: left, start, center, right, end).                                    |
-| margin        | 10            | The margin (all sides) between the text and the border of the image.                                                             |
 | bgColor       | #FFFFFF       | Sets the background color of the image.                                                                                          |
-| textColor     | #000000       | Sets the text color.                                                                                                             |
 | customHeight  | 0             | Sets the height of the generated image in pixels. If falsy, will automatically calculate the height based on the amount of text. |
 | debug         | false         | Set to true to turn on debug mode (see below).                                                                                   |
 | debugFilename | timestamp     | Set a custom file name for the file created in debug mode. Defaults to a timestamp with a `.png` extension.                      |
+| fontFamily    | Helvetica     | The font family to use for the text in the image.                                                                                |
+| fontPath      |               | The file system path to a font file to use, also specify `fontFamily` if you use this.                                           |
+| fontSize      | 18            | The font size to use for the text in the image.                                                                                  |
+| fontWeight    | normal        | The font weight to use for the text in the image.                                                                                |
+| lineHeight    | 28            | The line height for the generated text.                                                                                          |
+| margin        | 10            | The margin (all sides) between the text and the border of the image.                                                             |
+| maxWidth      | 400           | Sets the width of the generated image in pixels.                                                                                 |
+| textAlign     | left          | The text alignment for the generated text (possible values: left, start, center, right, end).                                    |
+| textColor     | #000000       | Sets the text color.                                                                                                             |
 
 Example:
 
