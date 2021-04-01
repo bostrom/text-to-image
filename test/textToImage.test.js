@@ -283,6 +283,24 @@ describe('the text-to-image generator', () => {
       0xff,
     );
   });
+
+  it('should support custom font paths', async () => {
+    await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+      debug: true,
+      debugFilename: '1_font_path.png',
+      fontPath: path.resolve(process.cwd(), 'test', 'helpers', 'comicsans.ttf'),
+      fontFamily: 'Comic Sans',
+    });
+
+    const images = glob.sync(path.join(process.cwd(), '*.png'));
+    const comicSansImg = fs.readFileSync(images[0]);
+    const comicSansData = await readImageData(comicSansImg);
+
+    // expect the pixel at top: 20, right: 12 to have text
+    expect(comicSansData.frames[0].data[400 * 20 * 4 + 12 * 4]).not.toEqual(
+      0xff,
+    );
+  });
 });
 
 describe('the text-to-image generator (sync)', () => {
@@ -557,6 +575,24 @@ describe('the text-to-image generator (sync)', () => {
 
     expect(leftAlignData.frames[0].data[400 * 19 * 4 - 13 * 4]).toEqual(0xff);
     expect(leftAlignData.frames[0].data[400 * 19 * 4 + 13 * 4]).not.toEqual(
+      0xff,
+    );
+  });
+
+  it('should support custom font paths', async () => {
+    imageGenerator.generateSync('Lorem ipsum dolor sit amet.', {
+      debug: true,
+      debugFilename: '1_font_path.png',
+      fontPath: path.resolve(process.cwd(), 'test', 'helpers', 'comicsans.ttf'),
+      fontFamily: 'Comic Sans',
+    });
+
+    const images = glob.sync(path.join(process.cwd(), '*.png'));
+    const comicSansImg = fs.readFileSync(images[0]);
+    const comicSansData = await readImageData(comicSansImg);
+
+    // expect the pixel at top: 20, right: 12 to have text
+    expect(comicSansData.frames[0].data[400 * 20 * 4 + 12 * 4]).not.toEqual(
       0xff,
     );
   });
