@@ -288,7 +288,7 @@ describe('the text-to-image generator', () => {
     await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
       debug: true,
       debugFilename: '1_font_path.png',
-      fontPath: path.resolve(process.cwd(), 'test', 'helpers', 'comicsans.ttf'),
+      fontPath: path.resolve(__dirname, 'helpers', 'comicsans.ttf'),
       fontFamily: 'Comic Sans',
     });
 
@@ -583,7 +583,7 @@ describe('the text-to-image generator (sync)', () => {
     imageGenerator.generateSync('Lorem ipsum dolor sit amet.', {
       debug: true,
       debugFilename: '1_font_path.png',
-      fontPath: path.resolve(process.cwd(), 'test', 'helpers', 'comicsans.ttf'),
+      fontPath: path.resolve(__dirname, 'helpers', 'comicsans.ttf'),
       fontFamily: 'Comic Sans',
     });
 
