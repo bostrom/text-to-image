@@ -2,6 +2,7 @@ export interface GenerateOptions {
   maxWidth?: number;
   fontSize?: number;
   fontFamily?: string;
+  fontPath?: string;
   fontWeight?: string;
   lineHeight?: number;
   textAlign?: 'left' | 'right' | 'center' | 'justify' | 'initial' | 'inherit';
