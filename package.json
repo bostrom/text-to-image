@@ -58,10 +58,5 @@
     "*.{json,graphql,md,css,scss,less}": [
       "prettier --write"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   }
 }
