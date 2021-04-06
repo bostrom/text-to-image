@@ -300,10 +300,10 @@ describe('the text-to-image generator', () => {
 
     expect(
       verticalCenter.frames[0].data[getFrameDataIndex(400, 57, 95)],
-    ).toEqual(224);
+    ).toEqual(225);
     expect(
       verticalCenter.frames[0].data[getFrameDataIndex(400, 57, 95, true)],
-    ).not.toEqual(224);
+    ).not.toEqual(225);
   });
 
   it('should support custom font paths', async () => {
