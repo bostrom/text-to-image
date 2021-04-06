@@ -299,11 +299,11 @@ describe('the text-to-image generator', () => {
     const verticalCenter = await readImageData(verticalCenterImg);
 
     expect(
-      verticalCenter.frames[0].data[getFrameDataIndex(400, 57, 95)],
-    ).toEqual(255);
+      verticalCenter.frames[0].data[getFrameDataIndex(400, 59, 95)],
+    ).toEqual(224);
     expect(
-      verticalCenter.frames[0].data[getFrameDataIndex(400, 57, 95, true)],
-    ).not.toEqual(255);
+      verticalCenter.frames[0].data[getFrameDataIndex(400, 59, 95, true)],
+    ).not.toEqual(224);
   });
 
   it('should support custom font paths', async () => {
