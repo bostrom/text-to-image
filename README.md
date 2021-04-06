@@ -61,7 +61,7 @@ The `generate` and `generateSync` function takes an optional second parameter co
 | textAlign       | left          | The text alignment for the generated text (possible values: left, start, center, right, end).                                    |
 | textColor       | #000000       | Sets the text color.                                                                                                             |
 | centerHeight    | false         | Use to set center height with `customHeight`                                                                                     |
-| fixHeightCenter | 5             | Fix height align                                                                                                                 |
+| fixHeightCenter | 5             | Fix height align (subtract margin top)                                                                                           |
 
 Example:
 
