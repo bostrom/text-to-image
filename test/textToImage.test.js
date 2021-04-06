@@ -5,6 +5,7 @@ const sizeOf = require('image-size');
 const extractColors = require('./helpers/extractColors');
 const readImageData = require('./helpers/readImageData');
 const imageGenerator = require('../lib/textToImage');
+const getFrameDataIndex = require('./helpers/getFrameDataIndex');
 
 describe('the text-to-image generator', () => {
   afterEach(() => {
@@ -282,6 +283,27 @@ describe('the text-to-image generator', () => {
     expect(leftAlignData.frames[0].data[400 * 19 * 4 + 13 * 4]).not.toEqual(
       0xff,
     );
+  });
+
+  it('should support vertical align', async () => {
+    await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+      debug: true,
+      debugFilename: '1_vertical_center.png',
+      textAlign: 'center',
+      verticalAlign: 'center',
+      customHeight: 100,
+    });
+
+    const images = glob.sync(path.join(process.cwd(), '*.png'));
+    const verticalCenterImg = fs.readFileSync(images[0]);
+    const verticalCenter = await readImageData(verticalCenterImg);
+
+    expect(
+      verticalCenter.frames[0].data[getFrameDataIndex(400, 57, 95)],
+    ).toEqual(224);
+    expect(
+      verticalCenter.frames[0].data[getFrameDataIndex(400, 57, 95, true)],
+    ).not.toEqual(224);
   });
 
   it('should support custom font paths', async () => {
