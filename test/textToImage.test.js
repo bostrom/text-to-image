@@ -5,7 +5,6 @@ const sizeOf = require('image-size');
 const extractColors = require('./helpers/extractColors');
 const readImageData = require('./helpers/readImageData');
 const imageGenerator = require('../lib/textToImage');
-const getFrameDataIndex = require('./helpers/getFrameDataIndex');
 
 describe('the text-to-image generator', () => {
   afterEach(() => {
@@ -298,9 +297,23 @@ describe('the text-to-image generator', () => {
     const verticalCenterImg = fs.readFileSync(images[0]);
     const verticalCenter = await readImageData(verticalCenterImg);
 
-    expect(
-      verticalCenter.frames[0].data[getFrameDataIndex(400, 13, 19)],
-    ).toEqual(255);
+    // all pixel rows from 0 to 49 should be white (slice doesn't include the end index)
+    const valueSumTop = verticalCenter.frames[0].data
+      .slice(0, 400 * 50 * 4)
+      .reduce((acc, cur) => acc + cur, 0);
+    expect(valueSumTop).toEqual(400 * 50 * 4 * 255);
+
+    // pixel rows from 50 to 74 should contain black pixels too
+    const valueSumMid = verticalCenter.frames[0].data
+      .slice(400 * 50 * 4, 400 * 75 * 4)
+      .reduce((acc, cur) => acc + cur, 0);
+    expect(valueSumMid).toBeLessThan(400 * 25 * 4 * 255);
+
+    // all pixel rows from 75 to 120 should be white
+    const valueSumBottom = verticalCenter.frames[0].data
+      .slice(400 * 75 * 4)
+      .reduce((acc, cur) => acc + cur, 0);
+    expect(valueSumBottom).toEqual(400 * 45 * 4 * 255);
   });
 
   it('should support custom font paths', async () => {
