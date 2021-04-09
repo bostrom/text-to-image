@@ -416,37 +416,37 @@ describe('the text-to-image generator', () => {
     const verticalCenterImg = fs.readFileSync(images[0]);
     const verticalCenter = await readImageData(verticalCenterImg);
 
-    // first 40 pixel rows should be white
+    // first 35 pixel rows should be white
     const topWhitePixels = countWhitePixels(
       verticalCenter,
       0,
       0,
       verticalCenter.width,
-      40,
+      35,
     );
-    expect(topWhitePixels).toBe(verticalCenter.width * 40);
+    expect(topWhitePixels).toBe(verticalCenter.width * 35);
 
     // middle pixel rows should contain non-whites
     const centerWhitePixels = countWhitePixels(
       verticalCenter,
       0,
-      40,
+      35,
       verticalCenter.width,
-      verticalCenter.height - 40,
+      verticalCenter.height - 35,
     );
     expect(centerWhitePixels).toBeLessThan(
-      verticalCenter.width * (verticalCenter.height - 80),
+      verticalCenter.width * (verticalCenter.height - 70),
     );
 
-    // bottom 40 rows should be white
+    // bottom 35 rows should be white
     const bottomWhitePixels = countWhitePixels(
       verticalCenter,
       0,
-      verticalCenter.height - 40,
+      verticalCenter.height - 35,
       verticalCenter.width,
       verticalCenter.height,
     );
-    expect(bottomWhitePixels).toBe(verticalCenter.width * 40);
+    expect(bottomWhitePixels).toBe(verticalCenter.width * 35);
   });
 
   it('should support custom font paths', async () => {
