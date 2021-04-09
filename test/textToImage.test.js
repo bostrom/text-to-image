@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const sizeOf = require('image-size');
 const extractColors = require('./helpers/extractColors');
-const readImageData = require('./helpers/readImageData');
+const { readImageData, countWhitePixels } = require('./helpers/readImageData');
 const imageGenerator = require('../lib/textToImage');
 
 describe('the text-to-image generator', () => {
@@ -263,47 +263,143 @@ describe('the text-to-image generator', () => {
     expect(boldMap['#ffffff']).toBeLessThan(normalMap['#ffffff']);
   });
 
-  it('should support aligning text', async () => {
+  it('should support right aligning text', async () => {
     await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
       debug: true,
       debugFilename: '1_right_align.png',
       textAlign: 'right',
     });
+
+    const images = glob.sync(path.join(process.cwd(), '1_right_align.png'));
+    const rightAlignImg = fs.readFileSync(images[0]);
+    const rightAlignData = await readImageData(rightAlignImg);
+
+    // expect all pixels on left side (up to 150px) to be white
+    const whitePixels = countWhitePixels(
+      rightAlignData,
+      0,
+      0,
+      150,
+      rightAlignData.height,
+    );
+    expect(whitePixels).toBe(rightAlignData.height * 150);
+
+    // expect some pixels on right side (from 150px) include non-white
+    const nonWhitePixels = countWhitePixels(
+      rightAlignData,
+      150,
+      0,
+      rightAlignData.width,
+      rightAlignData.height,
+    );
+    expect(nonWhitePixels).toBeLessThan(rightAlignData.height * 250);
+  });
+
+  it('should support left aligning text', async () => {
     await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
       debug: true,
-      debugFilename: '2_center_align.png',
-      textAlign: 'center',
-    });
-    await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
-      debug: true,
-      debugFilename: '3_left_align.png',
+      debugFilename: '1_left_align.png',
       textAlign: 'left',
     });
 
-    const images = glob.sync(path.join(process.cwd(), '*.png'));
-    const rightAlignImg = fs.readFileSync(images[0]);
-    const rightAlignData = await readImageData(rightAlignImg);
-    const centerAlignImg = fs.readFileSync(images[1]);
-    const centerAlignData = await readImageData(centerAlignImg);
-    const leftAlignImg = fs.readFileSync(images[2]);
+    const images = glob.sync(path.join(process.cwd(), '1_left_align.png'));
+    const leftAlignImg = fs.readFileSync(images[0]);
     const leftAlignData = await readImageData(leftAlignImg);
 
-    // expect the pixel at top: 19, left: 13 to have text
-    expect(rightAlignData.frames[0].data[400 * 19 * 4 - 13 * 4]).not.toEqual(
-      0xff,
+    // expect all pixels on right side (from 250px) to be white
+    const whitePixels = countWhitePixels(
+      leftAlignData,
+      250,
+      0,
+      leftAlignData.width,
+      leftAlignData.height,
     );
-    // expect the pixel at top: 19, right: 13 to not have text
-    expect(rightAlignData.frames[0].data[400 * 19 * 4 + 13 * 4]).toEqual(0xff);
+    expect(whitePixels).toBe(leftAlignData.height * 150);
 
-    expect(centerAlignData.frames[0].data[400 * 19 * 4 - 13 * 4]).toEqual(0xff);
-    expect(centerAlignData.frames[0].data[400 * 19 * 4 - 206 * 4]).not.toEqual(
-      0xff,
+    // expect some pixels on left side (up to 250px) to be non-white
+    const nonWhitePixels = countWhitePixels(
+      leftAlignData,
+      0,
+      0,
+      250,
+      leftAlignData.height,
     );
-    expect(centerAlignData.frames[0].data[400 * 19 * 4 + 13 * 4]).toEqual(0xff);
+    expect(nonWhitePixels).toBeLessThan(leftAlignData.height * 250);
+  });
 
-    expect(leftAlignData.frames[0].data[400 * 19 * 4 - 13 * 4]).toEqual(0xff);
-    expect(leftAlignData.frames[0].data[400 * 19 * 4 + 13 * 4]).not.toEqual(
-      0xff,
+  it('should support center aligning text', async () => {
+    await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+      debug: true,
+      debugFilename: '1_center_align.png',
+      textAlign: 'center',
+    });
+
+    const images = glob.sync(path.join(process.cwd(), '1_center_align.png'));
+    const centerAlignImg = fs.readFileSync(images[0]);
+    const centerAlignData = await readImageData(centerAlignImg);
+
+    // expect all pixels on left side (up to 80px) to be white
+    const leftWhitePixels = countWhitePixels(
+      centerAlignData,
+      0,
+      0,
+      80,
+      centerAlignData.height,
+    );
+    expect(leftWhitePixels).toBe(centerAlignData.height * 80);
+
+    // expect all pixels on left side (last 80px) to be white
+    const rightWhitePixels = countWhitePixels(
+      centerAlignData,
+      centerAlignData.width - 80,
+      0,
+      centerAlignData.width,
+      centerAlignData.height,
+    );
+    expect(rightWhitePixels).toBe(centerAlignData.height * 80);
+
+    // expect some pixels in the center (between 80 and width-80) to be non-white
+    const centerWhitePixels = countWhitePixels(
+      centerAlignData,
+      80,
+      0,
+      centerAlignData.width - 80,
+      centerAlignData.height,
+    );
+    expect(centerWhitePixels).toBeLessThan(
+      centerAlignData.height * (centerAlignData.width - 160),
+    );
+  });
+
+  it('should support custom height', async () => {
+    await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+      debug: true,
+      debugFilename: '1_custom_height.png',
+      customHeight: 100,
+    });
+
+    const images = glob.sync(path.join(process.cwd(), '1_custom_height.png'));
+    const customHeightImg = fs.readFileSync(images[0]);
+    const customHeight = await readImageData(customHeightImg);
+
+    expect(customHeight.height).toEqual(100);
+  });
+
+  it('should warn if the text is longer than customHeight', async () => {
+    const consoleSpy = jest.spyOn(console, 'warn');
+    consoleSpy.mockImplementation(() => {});
+
+    await imageGenerator.generate(
+      'Lorem ipsum dolor sit amet. Saturation point fluidity ablative weathered sunglasses soul-delay vehicle dolphin neon fetishism 3D-printed gang.',
+      {
+        debug: true,
+        debugFilename: '1_custom_height_overflow.png',
+        customHeight: 20,
+      },
+    );
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      'Text is longer than customHeight, clipping will occur.',
     );
   });
 
@@ -316,76 +412,58 @@ describe('the text-to-image generator', () => {
       customHeight: 100,
     });
 
-    const images = glob.sync(path.join(process.cwd(), '*.png'));
+    const images = glob.sync(path.join(process.cwd(), '1_vertical_center.png'));
     const verticalCenterImg = fs.readFileSync(images[0]);
     const verticalCenter = await readImageData(verticalCenterImg);
 
-    // all pixel rows from 0 to 49 should be white (slice doesn't include the end index)
-    const valueSumTop = verticalCenter.frames[0].data
-      .slice(0, 400 * 50 * 4)
-      .reduce((acc, cur) => acc + cur, 0);
-    expect(valueSumTop).toEqual(400 * 50 * 4 * 255);
+    // first 40 pixel rows should be white
+    const topWhitePixels = countWhitePixels(
+      verticalCenter,
+      0,
+      0,
+      verticalCenter.width,
+      40,
+    );
+    expect(topWhitePixels).toBe(verticalCenter.width * 40);
 
-    // pixel rows from 50 to 74 should contain black pixels too
-    const valueSumMid = verticalCenter.frames[0].data
-      .slice(400 * 50 * 4, 400 * 80 * 4)
-      .reduce((acc, cur) => acc + cur, 0);
-    expect(valueSumMid).toBeLessThan(400 * 30 * 4 * 255);
+    // middle pixel rows should contain non-whites
+    const centerWhitePixels = countWhitePixels(
+      verticalCenter,
+      0,
+      40,
+      verticalCenter.width,
+      verticalCenter.height - 40,
+    );
+    expect(centerWhitePixels).toBeLessThan(
+      verticalCenter.width * (verticalCenter.height - 80),
+    );
 
-    // all pixel rows from 75 to 120 should be white
-    const valueSumBottom = verticalCenter.frames[0].data
-      .slice(400 * 80 * 4)
-      .reduce((acc, cur) => acc + cur, 0);
-    expect(valueSumBottom).toEqual(400 * 40 * 4 * 255);
-  });
-
-  it('should support vertical align with right aligned text', async () => {
-    await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
-      debug: true,
-      debugFilename: '1_vertical_center.png',
-      textAlign: 'right',
-      verticalAlign: 'center',
-      customHeight: 100,
-    });
-
-    const images = glob.sync(path.join(process.cwd(), '*.png'));
-    const verticalCenterImg = fs.readFileSync(images[0]);
-    const verticalCenter = await readImageData(verticalCenterImg);
-
-    // all pixel rows from 0 to 49 should be white (slice doesn't include the end index)
-    const valueSumTop = verticalCenter.frames[0].data
-      .slice(0, 400 * 50 * 4)
-      .reduce((acc, cur) => acc + cur, 0);
-    expect(valueSumTop).toEqual(400 * 50 * 4 * 255);
-
-    // pixel rows from 50 to 74 should contain black pixels too
-    const valueSumMid = verticalCenter.frames[0].data
-      .slice(400 * 50 * 4, 400 * 80 * 4)
-      .reduce((acc, cur) => acc + cur, 0);
-    expect(valueSumMid).toBeLessThan(400 * 30 * 4 * 255);
-
-    // all pixel rows from 75 to 120 should be white
-    const valueSumBottom = verticalCenter.frames[0].data
-      .slice(400 * 80 * 4)
-      .reduce((acc, cur) => acc + cur, 0);
-    expect(valueSumBottom).toEqual(400 * 40 * 4 * 255);
+    // bottom 40 rows should be white
+    const bottomWhitePixels = countWhitePixels(
+      verticalCenter,
+      0,
+      verticalCenter.height - 40,
+      verticalCenter.width,
+      verticalCenter.height,
+    );
+    expect(bottomWhitePixels).toBe(verticalCenter.width * 40);
   });
 
   it('should support custom font paths', async () => {
-    await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+    await imageGenerator.generate('S', {
       debug: true,
       debugFilename: '1_font_path.png',
-      fontPath: path.resolve(__dirname, 'helpers', 'comicsans.ttf'),
-      fontFamily: 'Comic Sans',
+      // use a font that renders a black square with the 'S' character
+      fontPath: path.resolve(__dirname, 'helpers', 'heydings_controls.ttf'),
+      fontFamily: 'Heydings Controls',
+      margin: 0,
     });
 
-    const images = glob.sync(path.join(process.cwd(), '*.png'));
-    const comicSansImg = fs.readFileSync(images[0]);
-    const comicSansData = await readImageData(comicSansImg);
-
-    // expect the pixel at top: 20, right: 12 to have text
-    expect(comicSansData.frames[0].data[400 * 20 * 4 + 12 * 4]).not.toEqual(
-      0xff,
-    );
+    const images = glob.sync(path.join(process.cwd(), '1_font_path.png'));
+    const customFontImg = fs.readFileSync(images[0]);
+    const customFontData = await readImageData(customFontImg);
+    // check that we only have black pixels in the rendered square
+    const whitePixels = countWhitePixels(customFontData, 20, 9, 28, 17);
+    expect(whitePixels).toBe(0);
   });
 });
