@@ -305,15 +305,15 @@ describe('the text-to-image generator', () => {
 
     // pixel rows from 50 to 74 should contain black pixels too
     const valueSumMid = verticalCenter.frames[0].data
-      .slice(400 * 50 * 4, 400 * 75 * 4)
+      .slice(400 * 50 * 4, 400 * 80 * 4)
       .reduce((acc, cur) => acc + cur, 0);
-    expect(valueSumMid).toBeLessThan(400 * 25 * 4 * 255);
+    expect(valueSumMid).toBeLessThan(400 * 30 * 4 * 255);
 
     // all pixel rows from 75 to 120 should be white
     const valueSumBottom = verticalCenter.frames[0].data
-      .slice(400 * 75 * 4)
+      .slice(400 * 80 * 4)
       .reduce((acc, cur) => acc + cur, 0);
-    expect(valueSumBottom).toEqual(400 * 45 * 4 * 255);
+    expect(valueSumBottom).toEqual(400 * 40 * 4 * 255);
   });
 
   it('should support vertical align with right aligned text', async () => {
@@ -337,15 +337,15 @@ describe('the text-to-image generator', () => {
 
     // pixel rows from 50 to 74 should contain black pixels too
     const valueSumMid = verticalCenter.frames[0].data
-      .slice(400 * 50 * 4, 400 * 75 * 4)
+      .slice(400 * 50 * 4, 400 * 80 * 4)
       .reduce((acc, cur) => acc + cur, 0);
-    expect(valueSumMid).toBeLessThan(400 * 25 * 4 * 255);
+    expect(valueSumMid).toBeLessThan(400 * 30 * 4 * 255);
 
     // all pixel rows from 75 to 120 should be white
     const valueSumBottom = verticalCenter.frames[0].data
-      .slice(400 * 75 * 4)
+      .slice(400 * 80 * 4)
       .reduce((acc, cur) => acc + cur, 0);
-    expect(valueSumBottom).toEqual(400 * 45 * 4 * 255);
+    expect(valueSumBottom).toEqual(400 * 40 * 4 * 255);
   });
 
   it('should support custom font paths', async () => {
