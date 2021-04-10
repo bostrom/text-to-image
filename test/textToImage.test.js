@@ -396,6 +396,8 @@ describe('the text-to-image generator', () => {
       margin: 0,
     });
 
+    console.log(uri);
+
     const customFontData = await readImageData(uriToBuf(uri));
     // check that we only have black pixels in the rendered square
     const whitePixels = countWhitePixels(customFontData, 21, 10, 27, 16);
