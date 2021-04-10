@@ -1,5 +1,7 @@
 const readimage = require('readimage');
 
+const uriToBuf = imageUri => Buffer.from(imageUri.split(',')[1], 'base64');
+
 const readImageData = imageData =>
   new Promise((resolve, reject) => {
     readimage(imageData, (err, img) => {
@@ -27,6 +29,7 @@ const countWhitePixels = (imageData, fromCol, fromRow, toCol, toRow) =>
   ) / 3;
 
 module.exports = {
+  uriToBuf,
   readImageData,
   countWhitePixels,
 };
