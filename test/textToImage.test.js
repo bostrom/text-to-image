@@ -400,7 +400,7 @@ describe('the text-to-image generator', () => {
 
     const customFontData = await readImageData(uriToBuf(uri));
     // check that we only have black pixels in the rendered square
-    const whitePixels = countWhitePixels(customFontData, 21, 10, 27, 16);
+    const whitePixels = countWhitePixels(customFontData, 5, 9, 13, 17);
     expect(whitePixels).toBe(0);
   });
 });
