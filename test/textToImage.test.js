@@ -55,10 +55,9 @@ describe('the text-to-image generator', () => {
   it('should create a png file in debug mode', async () => {
     await imageGenerator.generate('Hello world', {
       debug: true,
-      debugFilename: '1_async_debug.png',
     });
 
-    const files = glob.sync(path.join(process.cwd(), '1_async_debug.png'));
+    const files = glob.sync(path.join(process.cwd(), '*.png'));
     expect(files.length).toEqual(1);
   });
 
