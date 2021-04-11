@@ -14,11 +14,11 @@ describe('the text-to-image generator', () => {
   afterEach(async () => {
     // remove all pngs created by the lib in debug mode
     const pngs = glob.sync(path.join(process.cwd(), '*.png'));
-    await Promise.all(pngs.map(item => fs.promises.unlink(item)));
+    await Promise.all(pngs.map((item) => fs.promises.unlink(item)));
     delete process.env.DEBUG;
   });
 
-  it('should return a promise', done => {
+  it('should return a promise', (done) => {
     expect(imageGenerator.generate('Hello world')).toBeInstanceOf(Promise);
     done();
   });

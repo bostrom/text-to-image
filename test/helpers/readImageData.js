@@ -1,8 +1,8 @@
 const readimage = require('readimage');
 
-const uriToBuf = imageUri => Buffer.from(imageUri.split(',')[1], 'base64');
+const uriToBuf = (imageUri) => Buffer.from(imageUri.split(',')[1], 'base64');
 
-const readImageData = imageData =>
+const readImageData = (imageData) =>
   new Promise((resolve, reject) => {
     readimage(imageData, (err, img) => {
       if (err) {
