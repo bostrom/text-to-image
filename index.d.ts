@@ -1,17 +1,18 @@
 export interface GenerateOptions {
-  maxWidth?: number;
-  fontSize?: number;
-  fontFamily?: string;
-  fontPath?: string;
-  fontWeight?: string;
-  lineHeight?: number;
-  textAlign?: 'left' | 'right' | 'center' | 'justify' | 'initial' | 'inherit';
-  margin?: number;
   bgColor?: string;
-  textColor?: string;
   customHeight?: number;
   debug?: boolean;
   debugFilename?: string;
+  fontFamily?: string;
+  fontPath?: string;
+  fontSize?: number;
+  fontWeight?: string;
+  lineHeight?: number;
+  margin?: number;
+  maxWidth?: number;
+  textAlign?: 'left' | 'right' | 'center' | 'justify' | 'initial' | 'inherit';
+  textColor?: string;
+  verticalAlign?: 'top' | 'center';
 }
 
 export function generate(
