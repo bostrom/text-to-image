@@ -25,6 +25,7 @@
     "clean": "rimraf dist",
     "build": "npm run clean && tsc",
     "preversion": "npm test",
+    "version": "npm run build && git add -A dist",
     "postversion": "git push && git push --tags && npm publish && npm run open-releases",
     "open-releases": "open \"$(node -e 'console.log(`${require(\"./package.json\").repository}/releases`)')\"",
     "test": "jest --coverage"
