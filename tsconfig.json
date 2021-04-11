@@ -1,0 +1,14 @@
+{
+  "extends": "@tsconfig/node10/tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "allowJs": true,
+    "outDir": "dist",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true
+  },
+  "include": ["index.js"],
+  "files": ["index.js"]
+}

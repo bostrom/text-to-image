@@ -1,4 +1,4 @@
-const { readImageData } = require('./readImageData');
+import { readImageData } from './readImageData';
 
 describe('readImageData', () => {
   it('should reject if the data is not an image', async () => {

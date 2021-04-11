@@ -1,14 +1,14 @@
-const glob = require('glob');
-const fs = require('fs');
-const path = require('path');
-const sizeOf = require('image-size');
-const extractColors = require('./helpers/extractColors');
-const {
+import glob from 'glob';
+import fs from 'fs';
+import path from 'path';
+import sizeOf from 'image-size';
+import extractColors from './helpers/extractColors';
+import {
   uriToBuf,
   readImageData,
   countWhitePixels,
-} = require('./helpers/readImageData');
-const imageGenerator = require('../lib/textToImage');
+} from './helpers/readImageData';
+import imageGenerator from '../lib/textToImage';
 
 describe('the text-to-image generator', () => {
   afterEach(async () => {
@@ -332,7 +332,7 @@ describe('the text-to-image generator', () => {
 
   it('should warn if the text is longer than customHeight', async () => {
     const consoleSpy = jest.spyOn(console, 'warn');
-    consoleSpy.mockImplementation(() => {});
+    consoleSpy.mockImplementation(() => undefined);
 
     await imageGenerator.generate(
       'Lorem ipsum dolor sit amet. Saturation point fluidity ablative weathered sunglasses soul-delay vehicle dolphin neon fetishism 3D-printed gang.',

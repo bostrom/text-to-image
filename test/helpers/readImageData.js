@@ -1,4 +1,4 @@
-const readimage = require('readimage');
+import readimage from 'readimage';
 
 const uriToBuf = (imageUri) => Buffer.from(imageUri.split(',')[1], 'base64');
 
