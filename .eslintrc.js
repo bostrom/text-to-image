@@ -1,5 +1,5 @@
 module.exports = {
-  extends: 'motley',
+  extends: 'motley-typescript',
   env: {
     node: true,
     jest: true,
