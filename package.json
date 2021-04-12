@@ -1,6 +1,6 @@
 {
   "name": "text-to-image",
-  "version": "2.4.4",
+  "version": "0.0.0-development",
   "description": "A library for generating an image data URI representing an image containing the text of your choice.",
   "author": "Fredrik Boström",
   "homepage": "https://github.com/bostrom/text-to-image#readme",
@@ -24,11 +24,8 @@
     "prepare": "husky install",
     "clean": "rimraf dist",
     "build": "npm run clean && tsc",
-    "preversion": "npm test",
-    "version": "npm run build && git add -A dist",
-    "postversion": "git push && git push --tags && npm publish && npm run open-releases",
-    "open-releases": "open \"$(node -e 'console.log(`${require(\"./package.json\").repository}/releases`)')\"",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "semantic-release": "semantic-release"
   },
   "dependencies": {
     "canvas": "^2.6.0"
@@ -59,7 +56,8 @@
     "prettier": "^2.2.1",
     "readimage": "^1.1.1",
     "rimraf": "^3.0.2",
-    "typescript": "^3.9.9"
+    "typescript": "^3.9.9",
+    "semantic-release": "^17.4.2"
   },
   "lint-staged": {
     "*.{js,ts}": [
