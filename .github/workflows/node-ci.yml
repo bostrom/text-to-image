@@ -4,12 +4,11 @@ on: [push, pull_request]
 
 jobs:
   test:
+    name: Test
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [10.x, 12.x, 14.x]
-
     steps:
       - name: Install canvas dependencies
         run: sudo apt-get install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
@@ -29,7 +28,8 @@ jobs:
           flag-name: run-${{ matrix.node-version }}
           parallel: true
 
-  finish:
+  coveralls:
+    name: Coveralls report
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -41,7 +41,7 @@ jobs:
 
   release:
     name: Release
-    needs: test
+    needs: coveralls
     if: ${{ success() && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/next' || github.ref == 'refs/heads/beta') }}
     runs-on: ubuntu-latest
     steps:
