@@ -1,35 +1,55 @@
 import fs from 'fs';
 import Canvas from 'canvas';
 
+interface GenerateOptions {
+  bgColor?: string | CanvasGradient | CanvasPattern;
+  customHeight?: number;
+  debug?: boolean;
+  debugFilename?: string;
+  fontFamily?: string;
+  fontPath?: string;
+  fontSize?: number;
+  fontWeight?: string | number;
+  lineHeight?: number;
+  margin?: number;
+  maxWidth?: number;
+  textAlign?: CanvasTextAlign;
+  textColor?: string;
+  verticalAlign?: string;
+}
+
+type GenerateOptionsRequired = Required<GenerateOptions>;
+
 const defaults = {
   bgColor: '#fff',
   customHeight: 0,
   debug: false,
-  debugFilename: null,
+  debugFilename: '',
   fontFamily: 'Helvetica',
-  fontPath: null,
+  fontPath: '',
   fontSize: 18,
   fontWeight: 'normal',
   lineHeight: 28,
   margin: 10,
   maxWidth: 400,
-  textAlign: 'left',
+  textAlign: 'left' as const,
   textColor: '#000',
   verticalAlign: 'top',
 };
 
-const createTextData = (
-  text,
-  maxWidth,
-  fontSize,
-  lineHeight,
-  bgColor,
-  textColor,
-  fontFamily,
-  fontPath,
-  fontWeight,
-  textAlign,
-) => {
+const createTextData = (text: string, config: GenerateOptionsRequired) => {
+  const {
+    bgColor,
+    fontFamily,
+    fontPath,
+    fontSize,
+    fontWeight,
+    lineHeight,
+    maxWidth,
+    textAlign,
+    textColor,
+  } = config;
+
   // Register a custom font
   if (fontPath) {
     Canvas.registerFont(fontPath, { family: fontFamily });
@@ -69,12 +89,12 @@ const createTextData = (
   const addNewLines = [];
 
   for (let n = 0; n < wordCount; n += 1) {
-    let word = words[n];
+    let word: string = words[n];
 
     if (/\n/.test(words[n])) {
       const parts = words[n].split('\n');
       // use the first word before the newline(s)
-      word = parts.shift();
+      word = parts.shift() || '';
       // mark the next word as beginning with newline
       addNewLines.push(n + 1);
       // return the rest of the parts to the words array at the same index
@@ -118,21 +138,23 @@ const createTextData = (
   return textContext.getImageData(0, 0, maxWidth, height);
 };
 
-const createCanvas = (content, conf) => {
+const createCanvas = (content: string, conf: GenerateOptionsRequired) => {
   // Get the text layer, not considering any
   // vertical whitespace beyond the text boundaries
   const textData = createTextData(
     content,
     // max width of text itself must be the image max width reduced by left-right margins
-    conf.maxWidth - conf.margin * 2,
-    conf.fontSize,
-    conf.lineHeight,
-    conf.bgColor,
-    conf.textColor,
-    conf.fontFamily,
-    conf.fontPath,
-    conf.fontWeight,
-    conf.textAlign,
+    <GenerateOptionsRequired>{
+      maxWidth: conf.maxWidth - conf.margin * 2,
+      fontSize: conf.fontSize,
+      lineHeight: conf.lineHeight,
+      bgColor: conf.bgColor,
+      textColor: conf.textColor,
+      fontFamily: conf.fontFamily,
+      fontPath: conf.fontPath,
+      fontWeight: conf.fontWeight,
+      textAlign: conf.textAlign,
+    },
   );
 
   const textHeightWithMargins = textData.height + conf.margin * 2;
@@ -168,7 +190,10 @@ const createCanvas = (content, conf) => {
   return canvas;
 };
 
-const generateImage = async (content, config) => {
+export const generate = async (
+  content: string,
+  config: GenerateOptions,
+): Promise<string> => {
   const conf = { ...defaults, ...config };
   const canvas = createCanvas(content, conf);
   const dataUrl = canvas.toDataURL();
@@ -183,8 +208,11 @@ const generateImage = async (content, config) => {
   return dataUrl;
 };
 
-const generateImageSync = (content, config) => {
-  const conf = { ...defaults, ...config };
+export const generateSync = (
+  content: string,
+  config: GenerateOptions,
+): string => {
+  const conf: GenerateOptionsRequired = { ...defaults, ...config };
   const canvas = createCanvas(content, conf);
   const dataUrl = canvas.toDataURL();
 
@@ -198,7 +226,7 @@ const generateImageSync = (content, config) => {
   return dataUrl;
 };
 
-module.exports = {
-  generate: generateImage,
-  generateSync: generateImageSync,
+export default {
+  generate,
+  generateSync,
 };

@@ -1,14 +1,16 @@
 {
   "extends": "@tsconfig/node10/tsconfig.json",
   "compilerOptions": {
-    "module": "CommonJS",
     "allowJs": true,
-    "outDir": "dist",
+    "declaration": true,
+    "module": "CommonJS",
     "noImplicitAny": true,
-    "removeComments": true,
+    "outDir": "dist",
     "preserveConstEnums": true,
-    "sourceMap": true
+    "removeComments": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es6"
   },
-  "include": ["index.js"],
-  "files": ["index.js"]
+  "include": ["src/**/*"]
 }

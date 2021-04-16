@@ -8,7 +8,7 @@ import {
   readImageData,
   countWhitePixels,
 } from './helpers/readImageData';
-import imageGenerator from '../lib/textToImage';
+import { generate, generateSync } from '../src/textToImage';
 
 describe('the text-to-image generator', () => {
   afterEach(async () => {
@@ -19,16 +19,16 @@ describe('the text-to-image generator', () => {
   });
 
   it('should return a promise', (done) => {
-    expect(imageGenerator.generate('Hello world')).toBeInstanceOf(Promise);
+    expect(generate('Hello world')).toBeInstanceOf(Promise);
     done();
   });
 
   it('should have a sync version', () => {
-    expect(typeof imageGenerator.generateSync('Hello world')).toEqual('string');
+    expect(typeof generateSync('Hello world')).toEqual('string');
   });
 
   it('should support debug in sync mode', () => {
-    imageGenerator.generateSync('Hello world', {
+    generateSync('Hello world', {
       debug: true,
       debugFilename: '1_sync_debug.png',
     });
@@ -38,7 +38,7 @@ describe('the text-to-image generator', () => {
   });
 
   it('should support default debug filename in sync mode', () => {
-    imageGenerator.generateSync('Hello world', {
+    generateSync('Hello world', {
       debug: true,
     });
 
@@ -47,13 +47,13 @@ describe('the text-to-image generator', () => {
   });
 
   it('should generate an image data url', async () => {
-    const dataUri = await imageGenerator.generate('Hello world');
+    const dataUri = await generate('Hello world');
 
     expect(dataUri).toMatch(/^data:image\/png;base64/);
   });
 
   it('should create a png file in debug mode', async () => {
-    await imageGenerator.generate('Hello world', {
+    await generate('Hello world', {
       debug: true,
     });
 
@@ -62,15 +62,15 @@ describe('the text-to-image generator', () => {
   });
 
   it('should not create a file if not in debug mode', async () => {
-    await imageGenerator.generate('Hello world');
+    await generate('Hello world');
 
     const files = glob.sync(path.join(process.cwd(), '*.png'));
     expect(files.length).toEqual(0);
   });
 
   it("should generate equal width but longer png when there's plenty of text", async () => {
-    const uri1 = await imageGenerator.generate('Hello world');
-    const uri2 = await imageGenerator.generate(
+    const uri1 = await generate('Hello world');
+    const uri2 = await generate(
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dolor eros, lobortis ac orci a, molestie sagittis libero.',
     );
 
@@ -86,8 +86,8 @@ describe('the text-to-image generator', () => {
   });
 
   it('should create a new lines when a \\n occurrs', async () => {
-    const uri1 = await imageGenerator.generate('Hello world');
-    const uri2 = await imageGenerator.generate('Hello world\nhello again');
+    const uri1 = await generate('Hello world');
+    const uri2 = await generate('Hello world\nhello again');
 
     const dimensions1 = sizeOf(uriToBuf(uri1));
     const dimensions2 = sizeOf(uriToBuf(uri2));
@@ -98,8 +98,8 @@ describe('the text-to-image generator', () => {
   });
 
   it('should create a new lines when a multiple \\n occurrs', async () => {
-    const uri1 = await imageGenerator.generate('Hello world\nhello again');
-    const uri2 = await imageGenerator.generate('Hello world\n\n\nhello again');
+    const uri1 = await generate('Hello world\nhello again');
+    const uri2 = await generate('Hello world\n\n\nhello again');
 
     const dimensions1 = sizeOf(uriToBuf(uri1));
     const dimensions2 = sizeOf(uriToBuf(uri2));
@@ -110,7 +110,7 @@ describe('the text-to-image generator', () => {
   });
 
   it('should default to a 400 px wide image', async () => {
-    const uri = await imageGenerator.generate('Lorem ipsum dolor sit amet.');
+    const uri = await generate('Lorem ipsum dolor sit amet.');
 
     const dimensions = sizeOf(uriToBuf(uri));
 
@@ -118,7 +118,7 @@ describe('the text-to-image generator', () => {
   });
 
   it('should be configurable to use another image width', async () => {
-    const uri = await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+    const uri = await generate('Lorem ipsum dolor sit amet.', {
       maxWidth: 500,
     });
 
@@ -127,7 +127,7 @@ describe('the text-to-image generator', () => {
   });
 
   it('should default to a white background no transparency', async () => {
-    const uri = await imageGenerator.generate('Lorem ipsum dolor sit amet.');
+    const uri = await generate('Lorem ipsum dolor sit amet.');
 
     const image = await readImageData(uriToBuf(uri));
 
@@ -139,7 +139,7 @@ describe('the text-to-image generator', () => {
   });
 
   it('should use the background color specified with no transparency', async () => {
-    const uri = await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+    const uri = await generate('Lorem ipsum dolor sit amet.', {
       bgColor: '#001122',
     });
 
@@ -156,7 +156,7 @@ describe('the text-to-image generator', () => {
     const WIDTH = 720;
     const HEIGHT = 220;
 
-    const uri = await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+    const uri = await generate('Lorem ipsum dolor sit amet.', {
       maxWidth: WIDTH,
       fontSize: 100,
       lineHeight: 100,
@@ -182,7 +182,7 @@ describe('the text-to-image generator', () => {
     const WIDTH = 720;
     const HEIGHT = 220;
 
-    const uri = await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+    const uri = await generate('Lorem ipsum dolor sit amet.', {
       maxWidth: WIDTH,
       fontSize: 100,
       lineHeight: 100,
@@ -207,10 +207,10 @@ describe('the text-to-image generator', () => {
   });
 
   it('should use the font weight specified', async () => {
-    const uri1 = await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+    const uri1 = await generate('Lorem ipsum dolor sit amet.', {
       fontWeight: 'bold',
     });
-    const uri2 = await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+    const uri2 = await generate('Lorem ipsum dolor sit amet.', {
       fontWeight: 'normal',
     });
 
@@ -225,7 +225,7 @@ describe('the text-to-image generator', () => {
   });
 
   it('should support right aligning text', async () => {
-    const uri = await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+    const uri = await generate('Lorem ipsum dolor sit amet.', {
       textAlign: 'right',
     });
 
@@ -253,7 +253,7 @@ describe('the text-to-image generator', () => {
   });
 
   it('should support left aligning text', async () => {
-    const uri = await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+    const uri = await generate('Lorem ipsum dolor sit amet.', {
       textAlign: 'left',
     });
 
@@ -281,7 +281,7 @@ describe('the text-to-image generator', () => {
   });
 
   it('should support center aligning text', async () => {
-    const uri = await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+    const uri = await generate('Lorem ipsum dolor sit amet.', {
       textAlign: 'center',
     });
 
@@ -321,7 +321,7 @@ describe('the text-to-image generator', () => {
   });
 
   it('should support custom height', async () => {
-    const uri = await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+    const uri = await generate('Lorem ipsum dolor sit amet.', {
       customHeight: 100,
     });
 
@@ -334,7 +334,7 @@ describe('the text-to-image generator', () => {
     const consoleSpy = jest.spyOn(console, 'warn');
     consoleSpy.mockImplementation(() => undefined);
 
-    await imageGenerator.generate(
+    await generate(
       'Lorem ipsum dolor sit amet. Saturation point fluidity ablative weathered sunglasses soul-delay vehicle dolphin neon fetishism 3D-printed gang.',
       {
         customHeight: 20,
@@ -347,7 +347,7 @@ describe('the text-to-image generator', () => {
   });
 
   it('should support vertical align', async () => {
-    const uri = await imageGenerator.generate('Lorem ipsum dolor sit amet.', {
+    const uri = await generate('Lorem ipsum dolor sit amet.', {
       textAlign: 'center',
       verticalAlign: 'center',
       customHeight: 100,
@@ -389,7 +389,7 @@ describe('the text-to-image generator', () => {
   });
 
   it('should support custom font paths', async () => {
-    const uri = await imageGenerator.generate('S', {
+    const uri = await generate('S', {
       // use a font that renders a black square with the 'S' character
       fontPath: path.resolve(__dirname, 'helpers', 'heydings_controls.ttf'),
       fontFamily: 'Heydings Controls',

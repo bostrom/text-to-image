@@ -18,8 +18,11 @@
   ],
   "license": "ISC",
   "main": "dist/index.js",
-  "types": "index.d.ts",
-  "files": "dist",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "prepare": "husky install",
     "clean": "rimraf dist",
