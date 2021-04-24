@@ -160,6 +160,7 @@ const createCanvas = (content: string, conf: GenerateOptionsRequired) => {
   const textHeightWithMargins = textData.height + conf.margin * 2;
 
   if (conf.customHeight && conf.customHeight < textHeightWithMargins) {
+    // eslint-disable-next-line no-console
     console.warn('Text is longer than customHeight, clipping will occur.');
   }
 
