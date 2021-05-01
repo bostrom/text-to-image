@@ -1,5 +1,6 @@
 import fs from 'fs';
 import Canvas from 'canvas';
+import { Canvas as CanvasType } from 'canvas/types';
 
 interface GenerateOptions {
   bgColor?: string | CanvasGradient | CanvasPattern;
@@ -37,7 +38,11 @@ const defaults = {
   verticalAlign: 'top',
 };
 
-const createTextData = (text: string, config: GenerateOptionsRequired) => {
+const createTextData = (
+  text: string,
+  config: GenerateOptionsRequired,
+  canvas?: CanvasType,
+) => {
   const {
     bgColor,
     fontFamily,
@@ -55,8 +60,11 @@ const createTextData = (text: string, config: GenerateOptionsRequired) => {
     Canvas.registerFont(fontPath, { family: fontFamily });
   }
 
-  // create a tall context so we definitely can fit all text
-  const textCanvas = Canvas.createCanvas(maxWidth, 1000);
+  // Use the supplied canvas (which should have a suitable width and height)
+  // for the final image
+  // OR
+  // create a temporary canvas just for measuring how long the canvas needs to be
+  const textCanvas = canvas || Canvas.createCanvas(maxWidth, 100);
   const textContext = textCanvas.getContext('2d');
 
   // set the text alignment and start position
@@ -71,11 +79,11 @@ const createTextData = (text: string, config: GenerateOptionsRequired) => {
   }
   textContext.textAlign = textAlign;
 
-  // make background the color passed in
+  // set background color
   textContext.fillStyle = bgColor;
   textContext.fillRect(0, 0, textCanvas.width, textCanvas.height);
 
-  // make text
+  // set text styles
   textContext.fillStyle = textColor;
   textContext.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
   textContext.textBaseline = 'top';
@@ -127,6 +135,7 @@ const createTextData = (text: string, config: GenerateOptionsRequired) => {
       line = testLine;
     }
   }
+
   // paint the last line
   textContext.fillText(line, textX, textY);
 
@@ -135,13 +144,18 @@ const createTextData = (text: string, config: GenerateOptionsRequired) => {
   // we increase by font size in order to prevent clipping
   const height = textY + Math.max(lineHeight, fontSize);
 
-  return textContext.getImageData(0, 0, maxWidth, height);
+  return {
+    textHeight: height,
+    textData: textContext.getImageData(0, 0, maxWidth, height),
+  };
 };
 
 const createCanvas = (content: string, conf: GenerateOptionsRequired) => {
-  // Get the text layer, not considering any
-  // vertical whitespace beyond the text boundaries
-  const textData = createTextData(
+  // First pass: measure the text so we can create a canvas
+  // big enough to fit the text. This has to be done since we can't
+  // resize the canvas on the fly without losing the settings of the 2D context
+  // https://github.com/Automattic/node-canvas/issues/1625
+  const { textHeight } = createTextData(
     content,
     // max width of text itself must be the image max width reduced by left-right margins
     <GenerateOptionsRequired>{
@@ -157,16 +171,36 @@ const createCanvas = (content: string, conf: GenerateOptionsRequired) => {
     },
   );
 
-  const textHeightWithMargins = textData.height + conf.margin * 2;
+  const textHeightWithMargins = textHeight + conf.margin * 2;
 
   if (conf.customHeight && conf.customHeight < textHeightWithMargins) {
     // eslint-disable-next-line no-console
     console.warn('Text is longer than customHeight, clipping will occur.');
   }
 
+  // Second pass: we now know the height of the text on the canvas,
+  // so let's create the final canvas with the given height and width
+  // and pass that to createTextData so we can get the text data from it
   const canvas = Canvas.createCanvas(
     conf.maxWidth,
     conf.customHeight || textHeightWithMargins,
+  );
+
+  const { textData } = createTextData(
+    content,
+    // max width of text itself must be the image max width reduced by left-right margins
+    <GenerateOptionsRequired>{
+      maxWidth: conf.maxWidth - conf.margin * 2,
+      fontSize: conf.fontSize,
+      lineHeight: conf.lineHeight,
+      bgColor: conf.bgColor,
+      textColor: conf.textColor,
+      fontFamily: conf.fontFamily,
+      fontPath: conf.fontPath,
+      fontWeight: conf.fontWeight,
+      textAlign: conf.textAlign,
+    },
+    canvas,
   );
   const ctx = canvas.getContext('2d');
 

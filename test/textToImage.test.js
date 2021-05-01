@@ -8,6 +8,7 @@ import {
   readImageData,
   countWhitePixels,
 } from './helpers/readImageData';
+import longInput from './helpers/longInput';
 import { generate, generateSync } from '../src/textToImage';
 
 describe('the text-to-image generator', () => {
@@ -400,5 +401,12 @@ describe('the text-to-image generator', () => {
     // check that we only have black pixels in the rendered square
     const whitePixels = countWhitePixels(customFontData, 5, 9, 13, 17);
     expect(whitePixels).toBe(0);
+  });
+
+  it('should support very long inputs', async () => {
+    const uri = await generate(longInput, {});
+
+    const imageData = await readImageData(uriToBuf(uri));
+    expect(imageData.height).toBeGreaterThan(3000);
   });
 });
