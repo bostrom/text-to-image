@@ -60,7 +60,7 @@
     "readimage": "^1.1.1",
     "rimraf": "^3.0.2",
     "semantic-release": "^17.4.2",
-    "typescript": "^3.9.9"
+    "typescript": "^4.2.4"
   },
   "lint-staged": {
     "*.{js,ts}": [
