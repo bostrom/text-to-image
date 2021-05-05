@@ -260,8 +260,3 @@ export const generateSync = (
 
   return dataUrl;
 };
-
-export default {
-  generate,
-  generateSync,
-};

@@ -3,14 +3,12 @@
   "compilerOptions": {
     "allowJs": true,
     "declaration": true,
-    "module": "CommonJS",
     "noImplicitAny": true,
     "outDir": "dist",
     "preserveConstEnums": true,
     "removeComments": true,
     "sourceMap": true,
-    "strict": true,
-    "target": "es6"
+    "strict": true
   },
   "include": ["src/**/*"]
 }

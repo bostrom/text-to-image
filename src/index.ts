@@ -1,1 +1,1 @@
-export { default } from './textToImage';
+export * from './textToImage';
