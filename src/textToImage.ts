@@ -1,6 +1,7 @@
 import fs from 'fs';
 import Canvas from 'canvas';
 import { Canvas as CanvasType } from 'canvas/types';
+import validateColor from 'validate-color';
 
 interface GenerateOptions {
   bgColor?: string | CanvasGradient | CanvasPattern;
@@ -80,11 +81,11 @@ const createTextData = (
   textContext.textAlign = textAlign;
 
   // set background color
-  textContext.fillStyle = bgColor;
+  textContext.fillStyle = bgColor && validateColor(bgColor) ? bgColor : defaults.bgColor;
   textContext.fillRect(0, 0, textCanvas.width, textCanvas.height);
 
   // set text styles
-  textContext.fillStyle = textColor;
+  textContext.fillStyle = textColor && validateColor(textColor) ? textColor : defaults.textColor;
   textContext.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
   textContext.textBaseline = 'top';
 
