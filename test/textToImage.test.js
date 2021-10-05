@@ -51,6 +51,8 @@ describe('the text-to-image generator', () => {
     const dataUri = await generate('Hello world');
 
     expect(dataUri).toMatch(/^data:image\/png;base64/);
+
+    expect(dataUri).toMatchSnapshot();
   });
 
   it('should create a png file in debug mode', async () => {
@@ -84,6 +86,9 @@ describe('the text-to-image generator', () => {
     expect(dimensions1.height).toBeGreaterThan(0);
     expect(dimensions1.height).toBeLessThan(dimensions2.height);
     expect(dimensions1.width).toEqual(dimensions2.width);
+
+    expect(uri1).toMatchSnapshot();
+    expect(uri2).toMatchSnapshot();
   });
 
   it('should create a new lines when a \\n occurrs', async () => {
@@ -96,6 +101,9 @@ describe('the text-to-image generator', () => {
     expect(dimensions1.height).toBeGreaterThan(0);
     expect(dimensions1.height).toBeLessThan(dimensions2.height);
     expect(dimensions1.width).toEqual(dimensions2.width);
+
+    expect(uri1).toMatchSnapshot();
+    expect(uri2).toMatchSnapshot();
   });
 
   it('should create a new lines when a multiple \\n occurrs', async () => {
@@ -108,6 +116,9 @@ describe('the text-to-image generator', () => {
     expect(dimensions1.height).toBeGreaterThan(0);
     expect(dimensions1.height).toBeLessThan(dimensions2.height);
     expect(dimensions1.width).toEqual(dimensions2.width);
+
+    expect(uri1).toMatchSnapshot();
+    expect(uri2).toMatchSnapshot();
   });
 
   it('should default to a 400 px wide image', async () => {
@@ -116,6 +127,8 @@ describe('the text-to-image generator', () => {
     const dimensions = sizeOf(uriToBuf(uri));
 
     expect(dimensions.width).toEqual(400);
+
+    expect(uri).toMatchSnapshot();
   });
 
   it('should be configurable to use another image width', async () => {
@@ -125,6 +138,8 @@ describe('the text-to-image generator', () => {
 
     const dimensions = sizeOf(uriToBuf(uri));
     expect(dimensions.width).toEqual(500);
+
+    expect(uri).toMatchSnapshot();
   });
 
   it('should default to a white background no transparency', async () => {
@@ -137,6 +152,8 @@ describe('the text-to-image generator', () => {
     expect(image.frames[0].data[1]).toEqual(0xff);
     expect(image.frames[0].data[2]).toEqual(0xff);
     expect(image.frames[0].data[3]).toEqual(0xff);
+
+    expect(uri).toMatchSnapshot();
   });
 
   it('should use the background color specified with no transparency', async () => {
@@ -151,6 +168,8 @@ describe('the text-to-image generator', () => {
     expect(image.frames[0].data[1]).toEqual(0x11);
     expect(image.frames[0].data[2]).toEqual(0x22);
     expect(image.frames[0].data[3]).toEqual(0xff);
+
+    expect(uri).toMatchSnapshot();
   });
 
   it('should default to a black text color', async () => {
@@ -177,6 +196,8 @@ describe('the text-to-image generator', () => {
     expect(Object.keys(map).length).toBeLessThanOrEqual(256);
     expect(map['#000000']).toBeGreaterThan(10);
     expect(map['#ffffff']).toBeGreaterThan(100);
+
+    expect(uri).toMatchSnapshot();
   });
 
   it('should use the text color specified', async () => {
@@ -205,6 +226,8 @@ describe('the text-to-image generator', () => {
     expect(map['#000000']).toBeUndefined();
     expect(map['#112233']).toBeGreaterThan(10);
     expect(map['#ffffff']).toBeGreaterThan(100);
+
+    expect(uri).toMatchSnapshot();
   });
 
   it('should use the font weight specified', async () => {
@@ -223,6 +246,9 @@ describe('the text-to-image generator', () => {
     // check that we have more black and less white in the bold text image
     expect(boldMap['#000000']).toBeGreaterThan(normalMap['#000000']);
     expect(boldMap['#ffffff']).toBeLessThan(normalMap['#ffffff']);
+
+    expect(uri1).toMatchSnapshot();
+    expect(uri2).toMatchSnapshot();
   });
 
   it('should support right aligning text', async () => {
@@ -251,6 +277,8 @@ describe('the text-to-image generator', () => {
       rightAlignData.height,
     );
     expect(nonWhitePixels).toBeLessThan(rightAlignData.height * 250);
+
+    expect(uri).toMatchSnapshot();
   });
 
   it('should support left aligning text', async () => {
@@ -279,6 +307,8 @@ describe('the text-to-image generator', () => {
       leftAlignData.height,
     );
     expect(nonWhitePixels).toBeLessThan(leftAlignData.height * 250);
+
+    expect(uri).toMatchSnapshot();
   });
 
   it('should support center aligning text', async () => {
@@ -319,6 +349,8 @@ describe('the text-to-image generator', () => {
     expect(centerWhitePixels).toBeLessThan(
       centerAlignData.height * (centerAlignData.width - 160),
     );
+
+    expect(uri).toMatchSnapshot();
   });
 
   it('should support custom height', async () => {
@@ -329,6 +361,8 @@ describe('the text-to-image generator', () => {
     const customHeight = await readImageData(uriToBuf(uri));
 
     expect(customHeight.height).toEqual(100);
+
+    expect(uri).toMatchSnapshot();
   });
 
   it('should warn if the text is longer than customHeight', async () => {
@@ -387,6 +421,8 @@ describe('the text-to-image generator', () => {
       verticalCenter.height,
     );
     expect(bottomWhitePixels).toBe(verticalCenter.width * 35);
+
+    expect(uri).toMatchSnapshot();
   });
 
   it('should support custom font paths', async () => {
@@ -401,6 +437,8 @@ describe('the text-to-image generator', () => {
     // check that we only have black pixels in the rendered square
     const whitePixels = countWhitePixels(customFontData, 5, 9, 13, 17);
     expect(whitePixels).toBe(0);
+
+    expect(uri).toMatchSnapshot();
   });
 
   it('should support very long inputs', async () => {
@@ -408,5 +446,7 @@ describe('the text-to-image generator', () => {
 
     const imageData = await readImageData(uriToBuf(uri));
     expect(imageData.height).toBeGreaterThan(3000);
+
+    expect(uri).toMatchSnapshot();
   });
 });
