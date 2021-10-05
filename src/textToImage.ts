@@ -114,7 +114,7 @@ const createTextData = (
     // if its width exceeds the maxWidth
     // also trim the testLine since `line` will be empty in the beginning,
     // causing a leading white space character otherwise
-    const testLine = `${line} ${word}`.trim();
+    const testLine = `${line} ${word}`.replace(/^ +/, '').replace(/ +$/, '');
     const testLineWidth = textContext.measureText(testLine).width;
 
     // if the line is marked as starting with a newline

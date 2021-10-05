@@ -449,4 +449,36 @@ describe('the text-to-image generator', () => {
 
     expect(uri).toMatchSnapshot();
   });
+
+  it('should support leading tabs', async () => {
+    const uri = await generate(
+      `\tDuis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Donec id elit non mi porta gravida at eget metus. \n\tAenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.`,
+    );
+
+    const imageData = await readImageData(uriToBuf(uri));
+    // check that we only have only white pixels in the top left corner
+    const whitePixels1 = countWhitePixels(imageData, 0, 0, 35, 35);
+    expect(whitePixels1).toBe(35 * 35);
+
+    const whitePixels2 = countWhitePixels(imageData, 0, 145, 35, 175);
+    expect(whitePixels2).toBe(35 * (175 - 145));
+
+    expect(uri).toMatchSnapshot();
+  });
+
+  it('should support leading non-breaking spaces', async () => {
+    const uri = await generate(
+      `\xA0\xA0\xA0Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. \n\xA0\xA0\xA0\xA0\xA0Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.`,
+    );
+
+    const imageData = await readImageData(uriToBuf(uri));
+    // check that we only have only white pixels in the top left corner
+    const whitePixels1 = countWhitePixels(imageData, 0, 0, 20, 30);
+    expect(whitePixels1).toBe(20 * 30);
+
+    const whitePixels2 = countWhitePixels(imageData, 0, 60, 30, 90);
+    expect(whitePixels2).toBe(30 * 30);
+
+    expect(uri).toMatchSnapshot();
+  });
 });
