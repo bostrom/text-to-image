@@ -204,6 +204,9 @@ const createCanvas = (content: string, conf: GenerateOptionsRequired) => {
   );
   const ctx = canvas.getContext('2d');
 
+  // the canvas will have the text from the first pass on it,
+  // so start by clearing the whole canvas and start from a clean slate
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.globalAlpha = 1;
   ctx.fillStyle = conf.bgColor;
   ctx.fillRect(0, 0, canvas.width, canvas.height);

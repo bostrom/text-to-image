@@ -496,4 +496,21 @@ describe('the text-to-image generator', () => {
 
     takeSnapshot(uri);
   });
+
+  it('should not duplicate text with transparent background', async () => {
+    const uri = await generate(`Cases in Kanyakum district`, {
+      customHeight: 900,
+      verticalAlign: 'center',
+      bgColor: 'transparent',
+    });
+
+    const {
+      frames: [{ data }],
+    } = await readImageData(uriToBuf(uri));
+    // the top 100 pixel rows should not have any data
+    const topRowsData = data.slice(0, 400 * 100 * 4); // 400px wide, 100px high, 4 values per pixel
+    const rgbaSum = topRowsData.reduce((acc, cur) => acc + cur, 0);
+
+    expect(rgbaSum).toBe(0);
+  });
 });
