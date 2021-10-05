@@ -11,6 +11,21 @@ import {
 import longInput from './helpers/longInput';
 import { generate, generateSync } from '../src/textToImage';
 
+// For development purposes only.
+// We can't commit the snapshots since they
+// will differ ever so slighly in the CI environment
+// and fail our tests. So we use the snapshots only as
+// regression detectors when developing (taking snapshots
+// before refactor/feature and verifying that nothing changed
+// after). To be disabled and snapshots removed before
+// committing.
+const snapshots = false;
+function takeSnapshot(data) {
+  if (snapshots) {
+    expect(data).toMatchSnapshot();
+  }
+}
+
 describe('the text-to-image generator', () => {
   afterEach(async () => {
     // remove all pngs created by the lib in debug mode
@@ -52,7 +67,7 @@ describe('the text-to-image generator', () => {
 
     expect(dataUri).toMatch(/^data:image\/png;base64/);
 
-    expect(dataUri).toMatchSnapshot();
+    takeSnapshot(dataUri);
   });
 
   it('should create a png file in debug mode', async () => {
@@ -87,8 +102,8 @@ describe('the text-to-image generator', () => {
     expect(dimensions1.height).toBeLessThan(dimensions2.height);
     expect(dimensions1.width).toEqual(dimensions2.width);
 
-    expect(uri1).toMatchSnapshot();
-    expect(uri2).toMatchSnapshot();
+    takeSnapshot(uri1);
+    takeSnapshot(uri2);
   });
 
   it('should create a new lines when a \\n occurrs', async () => {
@@ -102,8 +117,8 @@ describe('the text-to-image generator', () => {
     expect(dimensions1.height).toBeLessThan(dimensions2.height);
     expect(dimensions1.width).toEqual(dimensions2.width);
 
-    expect(uri1).toMatchSnapshot();
-    expect(uri2).toMatchSnapshot();
+    takeSnapshot(uri1);
+    takeSnapshot(uri2);
   });
 
   it('should create a new lines when a multiple \\n occurrs', async () => {
@@ -117,8 +132,8 @@ describe('the text-to-image generator', () => {
     expect(dimensions1.height).toBeLessThan(dimensions2.height);
     expect(dimensions1.width).toEqual(dimensions2.width);
 
-    expect(uri1).toMatchSnapshot();
-    expect(uri2).toMatchSnapshot();
+    takeSnapshot(uri1);
+    takeSnapshot(uri2);
   });
 
   it('should default to a 400 px wide image', async () => {
@@ -128,7 +143,7 @@ describe('the text-to-image generator', () => {
 
     expect(dimensions.width).toEqual(400);
 
-    expect(uri).toMatchSnapshot();
+    takeSnapshot(uri);
   });
 
   it('should be configurable to use another image width', async () => {
@@ -139,7 +154,7 @@ describe('the text-to-image generator', () => {
     const dimensions = sizeOf(uriToBuf(uri));
     expect(dimensions.width).toEqual(500);
 
-    expect(uri).toMatchSnapshot();
+    takeSnapshot(uri);
   });
 
   it('should default to a white background no transparency', async () => {
@@ -153,7 +168,7 @@ describe('the text-to-image generator', () => {
     expect(image.frames[0].data[2]).toEqual(0xff);
     expect(image.frames[0].data[3]).toEqual(0xff);
 
-    expect(uri).toMatchSnapshot();
+    takeSnapshot(uri);
   });
 
   it('should use the background color specified with no transparency', async () => {
@@ -169,7 +184,7 @@ describe('the text-to-image generator', () => {
     expect(image.frames[0].data[2]).toEqual(0x22);
     expect(image.frames[0].data[3]).toEqual(0xff);
 
-    expect(uri).toMatchSnapshot();
+    takeSnapshot(uri);
   });
 
   it('should default to a black text color', async () => {
@@ -197,7 +212,7 @@ describe('the text-to-image generator', () => {
     expect(map['#000000']).toBeGreaterThan(10);
     expect(map['#ffffff']).toBeGreaterThan(100);
 
-    expect(uri).toMatchSnapshot();
+    takeSnapshot(uri);
   });
 
   it('should use the text color specified', async () => {
@@ -227,7 +242,7 @@ describe('the text-to-image generator', () => {
     expect(map['#112233']).toBeGreaterThan(10);
     expect(map['#ffffff']).toBeGreaterThan(100);
 
-    expect(uri).toMatchSnapshot();
+    takeSnapshot(uri);
   });
 
   it('should use the font weight specified', async () => {
@@ -247,8 +262,8 @@ describe('the text-to-image generator', () => {
     expect(boldMap['#000000']).toBeGreaterThan(normalMap['#000000']);
     expect(boldMap['#ffffff']).toBeLessThan(normalMap['#ffffff']);
 
-    expect(uri1).toMatchSnapshot();
-    expect(uri2).toMatchSnapshot();
+    takeSnapshot(uri1);
+    takeSnapshot(uri2);
   });
 
   it('should support right aligning text', async () => {
@@ -278,7 +293,7 @@ describe('the text-to-image generator', () => {
     );
     expect(nonWhitePixels).toBeLessThan(rightAlignData.height * 250);
 
-    expect(uri).toMatchSnapshot();
+    takeSnapshot(uri);
   });
 
   it('should support left aligning text', async () => {
@@ -308,7 +323,7 @@ describe('the text-to-image generator', () => {
     );
     expect(nonWhitePixels).toBeLessThan(leftAlignData.height * 250);
 
-    expect(uri).toMatchSnapshot();
+    takeSnapshot(uri);
   });
 
   it('should support center aligning text', async () => {
@@ -350,7 +365,7 @@ describe('the text-to-image generator', () => {
       centerAlignData.height * (centerAlignData.width - 160),
     );
 
-    expect(uri).toMatchSnapshot();
+    takeSnapshot(uri);
   });
 
   it('should support custom height', async () => {
@@ -362,7 +377,7 @@ describe('the text-to-image generator', () => {
 
     expect(customHeight.height).toEqual(100);
 
-    expect(uri).toMatchSnapshot();
+    takeSnapshot(uri);
   });
 
   it('should warn if the text is longer than customHeight', async () => {
@@ -422,7 +437,7 @@ describe('the text-to-image generator', () => {
     );
     expect(bottomWhitePixels).toBe(verticalCenter.width * 35);
 
-    expect(uri).toMatchSnapshot();
+    takeSnapshot(uri);
   });
 
   it('should support custom font paths', async () => {
@@ -438,7 +453,7 @@ describe('the text-to-image generator', () => {
     const whitePixels = countWhitePixels(customFontData, 5, 9, 13, 17);
     expect(whitePixels).toBe(0);
 
-    expect(uri).toMatchSnapshot();
+    takeSnapshot(uri);
   });
 
   it('should support very long inputs', async () => {
@@ -447,7 +462,7 @@ describe('the text-to-image generator', () => {
     const imageData = await readImageData(uriToBuf(uri));
     expect(imageData.height).toBeGreaterThan(3000);
 
-    expect(uri).toMatchSnapshot();
+    takeSnapshot(uri);
   });
 
   it('should support leading tabs', async () => {
@@ -463,7 +478,7 @@ describe('the text-to-image generator', () => {
     const whitePixels2 = countWhitePixels(imageData, 0, 145, 35, 175);
     expect(whitePixels2).toBe(35 * (175 - 145));
 
-    expect(uri).toMatchSnapshot();
+    takeSnapshot(uri);
   });
 
   it('should support leading non-breaking spaces', async () => {
@@ -479,6 +494,6 @@ describe('the text-to-image generator', () => {
     const whitePixels2 = countWhitePixels(imageData, 0, 60, 30, 90);
     expect(whitePixels2).toBe(30 * 30);
 
-    expect(uri).toMatchSnapshot();
+    takeSnapshot(uri);
   });
 });
