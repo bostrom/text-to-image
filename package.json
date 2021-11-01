@@ -59,7 +59,7 @@
     "prettier": "^2.2.1",
     "readimage": "^1.1.1",
     "rimraf": "^3.0.2",
-    "semantic-release": "^17.4.2",
+    "semantic-release": "^18.0.0",
     "typescript": "^4.2.4"
   },
   "lint-staged": {
