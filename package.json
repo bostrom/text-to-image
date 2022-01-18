@@ -54,7 +54,7 @@
     "glob": "^7.0.5",
     "husky": "^6.0.0",
     "image-size": "^1.0.0",
-    "jest": "^26.6.3",
+    "jest": "^27.4.7",
     "lint-staged": "^11.2.0",
     "prettier": "^2.2.1",
     "readimage": "^1.1.1",
