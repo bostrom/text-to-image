@@ -64,7 +64,7 @@ describe('the text-to-image generator', () => {
     const images = glob.sync(filePath);
     expect(images.length).toBe(1);
 
-    fs.rmSync(baseDir, {
+    fs.rmdirSync(baseDir, {
       recursive: true,
       force: true,
     });
@@ -81,7 +81,7 @@ describe('the text-to-image generator', () => {
     const images = glob.sync(filePath);
     expect(images.length).toBe(1);
 
-    fs.rmSync(baseDir, {
+    fs.rmdirSync(baseDir, {
       recursive: true,
       force: true,
     });

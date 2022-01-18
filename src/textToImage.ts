@@ -1,7 +1,8 @@
 import { dirname, resolve } from 'path';
-import { writeFileSync, mkdirSync } from 'fs';
-import { writeFile, mkdir } from 'fs/promises';
+import { writeFileSync, mkdirSync, promises as fsPromises } from 'fs';
 import { createCanvas, registerFont, Canvas } from 'canvas';
+
+const { writeFile, mkdir } = fsPromises;
 
 interface GenerateOptions {
   bgColor?: string | CanvasGradient | CanvasPattern;
