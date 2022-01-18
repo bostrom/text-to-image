@@ -1,8 +1,6 @@
 import { dirname, resolve } from 'path';
-import { writeFileSync, mkdirSync, promises as fsPromises } from 'fs';
+import { writeFileSync, mkdirSync, promises as fs } from 'fs';
 import { createCanvas, registerFont, Canvas } from 'canvas';
-
-const { writeFile, mkdir } = fsPromises;
 
 interface GenerateOptions {
   bgColor?: string | CanvasGradient | CanvasPattern;
@@ -242,8 +240,8 @@ export const generate = async (
     const fileName =
       conf.debugFilename ||
       `${new Date().toISOString().replace(/[\W.]/g, '')}.png`;
-    await mkdir(resolve(dirname(fileName)), { recursive: true });
-    await writeFile(fileName, canvas.toBuffer());
+    await fs.mkdir(resolve(dirname(fileName)), { recursive: true });
+    await fs.writeFile(fileName, canvas.toBuffer());
   }
 
   return dataUrl;
