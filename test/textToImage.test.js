@@ -53,6 +53,40 @@ describe('the text-to-image generator', () => {
     expect(images.length).toBe(1);
   });
 
+  it('should support custom filepaths in sync debug mode', () => {
+    const baseDir = path.join(process.cwd(), 'test', 'custom_path');
+    const filePath = path.join(baseDir, 'to', '1_path_debug.png');
+    generateSync('Hello world', {
+      debug: true,
+      debugFilename: filePath,
+    });
+
+    const images = glob.sync(filePath);
+    expect(images.length).toBe(1);
+
+    fs.rmSync(baseDir, {
+      recursive: true,
+      force: true,
+    });
+  });
+
+  it('should support custom filepaths in async debug mode', async () => {
+    const baseDir = path.join(process.cwd(), 'test', 'custom_path');
+    const filePath = path.join(baseDir, 'to', '1_path_debug.png');
+    await generate('Hello world', {
+      debug: true,
+      debugFilename: filePath,
+    });
+
+    const images = glob.sync(filePath);
+    expect(images.length).toBe(1);
+
+    fs.rmSync(baseDir, {
+      recursive: true,
+      force: true,
+    });
+  });
+
   it('should support default debug filename in sync mode', () => {
     generateSync('Hello world', {
       debug: true,

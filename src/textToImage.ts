@@ -1,4 +1,6 @@
-import fs from 'fs';
+import { dirname, resolve } from 'path';
+import { writeFileSync, mkdirSync } from 'fs';
+import { writeFile, mkdir } from 'fs/promises';
 import { createCanvas, registerFont, Canvas } from 'canvas';
 
 interface GenerateOptions {
@@ -239,7 +241,8 @@ export const generate = async (
     const fileName =
       conf.debugFilename ||
       `${new Date().toISOString().replace(/[\W.]/g, '')}.png`;
-    await fs.promises.writeFile(fileName, canvas.toBuffer());
+    await mkdir(resolve(dirname(fileName)), { recursive: true });
+    await writeFile(fileName, canvas.toBuffer());
   }
 
   return dataUrl;
@@ -257,7 +260,8 @@ export const generateSync = (
     const fileName =
       conf.debugFilename ||
       `${new Date().toISOString().replace(/[\W.]/g, '')}.png`;
-    fs.writeFileSync(fileName, canvas.toBuffer());
+    mkdirSync(resolve(dirname(fileName)), { recursive: true });
+    writeFileSync(fileName, canvas.toBuffer());
   }
 
   return dataUrl;

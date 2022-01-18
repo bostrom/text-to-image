@@ -16,7 +16,7 @@ Originally part of a Twitter bot for publishing tweets longer than 140 character
 
 ## Usage
 
-```javascript
+```typescript
 const textToImage = require('text-to-image');
 
 // using the asynchronous API with await
@@ -49,7 +49,7 @@ Line breaks can be added with `\n`.
 
 Example:
 
-```javascript
+```typescript
 const textToImage = require('text-to-image');
 
 // Add indent as tabs
@@ -76,7 +76,7 @@ The available options are as follows.
 | bgColor       | string \| CanvasGradient \| CanvasPattern | #FFFFFF       | Sets the background color of the image. See [CanvasRenderingContext2D.fillStyle](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle) for valid values, or use a color value validator (see note above). |
 | customHeight  | number                                    | 0             | Sets the height of the generated image in pixels. If falsy, will automatically calculate the height based on the amount of text.                                                                                                         |
 | debug         | boolean                                   | false         | Set to true to turn on debug mode (see below).                                                                                                                                                                                           |
-| debugFilename | string                                    | timestamp     | Set a custom file name for the file created in debug mode. Defaults to a timestamp with a `.png` extension.                                                                                                                              |
+| debugFilename | string                                    | timestamp     | Set a custom file name (may include a custom path) for the file created in debug mode. Defaults to a timestamp with a `.png` extension in the current working directory.                                                                 |
 | fontFamily    | string                                    | Helvetica     | The font family to use for the text in the image. See [CSS font-family](https://developer.mozilla.org/en-US/docs/Web/CSS/font-family) for valid values.                                                                                  |
 | fontPath      | string                                    |               | The file system path to a font file to use, also specify `fontFamily` if you use this.                                                                                                                                                   |
 | fontSize      | number                                    | 18            | The font size to use for the text in the image. See [CSS font-size](https://developer.mozilla.org/en-US/docs/Web/CSS/font-size) for valid values.                                                                                        |
@@ -90,7 +90,7 @@ The available options are as follows.
 
 Example:
 
-```javascript
+```typescript
 const textToImage = require('text-to-image');
 
 const dataUri = await textToImage.generate('Lorem ipsum dolor sit amet', {
@@ -107,7 +107,21 @@ const dataUri = await textToImage.generate('Lorem ipsum dolor sit amet', {
 
 ## Debugging
 
-Turn on debug mode to have the library store the generated image data URI as a PNG in the current working directory (where the process was started). The image name will be the current date and time.
+Turn on debug mode to have the library store the generated image data URI as a PNG in the current working directory (where the process was started). The image name will be the current date and time. For more control over the debug file name and location, specify the `debugFilename` option, which can include path segments in addition to the file name. A relative paths (or only a file name without path) will be resolved starting from the current working directory. Any missing parent directories to the file will be created as needed.
+
+Example:
+
+```typescript
+const textToImage = require('text-to-image');
+const path = require('path');
+
+const dataUri = await textToImage.generate('Lorem ipsum dolor sit amet', {
+  debug: true,
+  debugFilename: path.join('some', 'custom', 'path', 'to', 'debug_file.png'),
+});
+```
+
+This will create the debug file `some/custom/path/to/debug_file.png` in the current working directory.
 
 ## Test
 
