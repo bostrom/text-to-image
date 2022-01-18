@@ -1,6 +1,5 @@
 import fs from 'fs';
-import Canvas from 'canvas';
-import { Canvas as CanvasType } from 'canvas/types';
+import { createCanvas, registerFont, Canvas } from 'canvas';
 
 interface GenerateOptions {
   bgColor?: string | CanvasGradient | CanvasPattern;
@@ -41,7 +40,7 @@ const defaults = {
 const createTextData = (
   text: string,
   config: GenerateOptionsRequired,
-  canvas?: CanvasType,
+  canvas?: Canvas,
 ) => {
   const {
     bgColor,
@@ -57,14 +56,14 @@ const createTextData = (
 
   // Register a custom font
   if (fontPath) {
-    Canvas.registerFont(fontPath, { family: fontFamily });
+    registerFont(fontPath, { family: fontFamily });
   }
 
   // Use the supplied canvas (which should have a suitable width and height)
   // for the final image
   // OR
   // create a temporary canvas just for measuring how long the canvas needs to be
-  const textCanvas = canvas || Canvas.createCanvas(maxWidth, 100);
+  const textCanvas = canvas || createCanvas(maxWidth, 100);
   const textContext = textCanvas.getContext('2d');
 
   // set the text alignment and start position
@@ -150,7 +149,7 @@ const createTextData = (
   };
 };
 
-const createCanvas = (content: string, conf: GenerateOptionsRequired) => {
+const createImageCanvas = (content: string, conf: GenerateOptionsRequired) => {
   // First pass: measure the text so we can create a canvas
   // big enough to fit the text. This has to be done since we can't
   // resize the canvas on the fly without losing the settings of the 2D context
@@ -181,7 +180,7 @@ const createCanvas = (content: string, conf: GenerateOptionsRequired) => {
   // Second pass: we now know the height of the text on the canvas,
   // so let's create the final canvas with the given height and width
   // and pass that to createTextData so we can get the text data from it
-  const canvas = Canvas.createCanvas(
+  const canvas = createCanvas(
     conf.maxWidth,
     conf.customHeight || textHeightWithMargins,
   );
@@ -233,7 +232,7 @@ export const generate = async (
   config: GenerateOptions,
 ): Promise<string> => {
   const conf = { ...defaults, ...config };
-  const canvas = createCanvas(content, conf);
+  const canvas = createImageCanvas(content, conf);
   const dataUrl = canvas.toDataURL();
 
   if (conf.debug) {
@@ -251,7 +250,7 @@ export const generateSync = (
   config: GenerateOptions,
 ): string => {
   const conf: GenerateOptionsRequired = { ...defaults, ...config };
-  const canvas = createCanvas(content, conf);
+  const canvas = createImageCanvas(content, conf);
   const dataUrl = canvas.toDataURL();
 
   if (conf.debug) {
