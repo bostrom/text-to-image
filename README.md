@@ -8,6 +8,10 @@ A library for generating an image data URI representing an image containing the 
 
 Originally part of a Twitter bot for publishing tweets longer than 140 characters, the generator takes a string and an optional configuration object as parameters and produces an image data URI (`data:image/png;base64,iVBORw0KGgoAAAA...`).
 
+## Try it
+
+Use [this CodeSandbox](https://codesandbox.io/s/text-to-image-example-r8h1o?file=/src/index.ts) to try out text-to-image in your browser.
+
 ## Installation
 
     npm i text-to-image
