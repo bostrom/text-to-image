@@ -1,6 +1,10 @@
 import { dirname, resolve } from 'path';
-import { writeFileSync, mkdirSync, promises as fs } from 'fs';
+import { writeFileSync, mkdirSync, writeFile, mkdir } from 'fs';
+import { promisify } from 'util';
 import { createCanvas, registerFont, Canvas } from 'canvas';
+
+const writeFileAsync = promisify(writeFile);
+const mkdirAsync = promisify(mkdir);
 
 interface GenerateOptions {
   bgColor?: string | CanvasGradient | CanvasPattern;
@@ -240,8 +244,8 @@ export const generate = async (
     const fileName =
       conf.debugFilename ||
       `${new Date().toISOString().replace(/[\W.]/g, '')}.png`;
-    await fs.mkdir(resolve(dirname(fileName)), { recursive: true });
-    await fs.writeFile(fileName, canvas.toBuffer());
+    await mkdirAsync(resolve(dirname(fileName)), { recursive: true });
+    await writeFileAsync(fileName, canvas.toBuffer());
   }
 
   return dataUrl;

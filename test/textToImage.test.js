@@ -53,7 +53,7 @@ describe('the text-to-image generator', () => {
     expect(images.length).toBe(1);
   });
 
-  it('should support custom filepaths in sync debug mode', () => {
+  it('should support custom filepaths in sync debug mode', async () => {
     const baseDir = path.join(process.cwd(), 'test', 'custom_path');
     const filePath = path.join(baseDir, 'to', '1_path_debug.png');
     generateSync('Hello world', {
@@ -64,7 +64,7 @@ describe('the text-to-image generator', () => {
     const images = glob.sync(filePath);
     expect(images.length).toBe(1);
 
-    fs.rmdirSync(baseDir, {
+    await fs.promises.rmdir(baseDir, {
       recursive: true,
       force: true,
     });
@@ -81,7 +81,7 @@ describe('the text-to-image generator', () => {
     const images = glob.sync(filePath);
     expect(images.length).toBe(1);
 
-    fs.rmdirSync(baseDir, {
+    await fs.promises.rmdir(baseDir, {
       recursive: true,
       force: true,
     });
