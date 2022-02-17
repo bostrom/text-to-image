@@ -9,7 +9,7 @@ const mkdirAsync = promisify(mkdir);
 interface GenerateOptions {
   bgColor?: string | CanvasGradient | CanvasPattern;
   customHeight?: number;
-  bubbleTail?: {width: number, height: number}
+  bubbleTail?: { width: number; height: number };
   debug?: boolean;
   debugFilename?: string;
   fontFamily?: string;
@@ -29,7 +29,7 @@ type GenerateOptionsRequired = Required<GenerateOptions>;
 const defaults = {
   bgColor: '#fff',
   customHeight: 0,
-  bubbleTail: {width: 0, height: 0},
+  bubbleTail: { width: 0, height: 0 },
   debug: false,
   debugFilename: '',
   fontFamily: 'Helvetica',
@@ -187,11 +187,8 @@ const createImageCanvas = (content: string, conf: GenerateOptionsRequired) => {
   // Second pass: we now know the height of the text on the canvas,
   // so let's create the final canvas with the given height and width
   // and pass that to createTextData so we can get the text data from it
-  const height = conf.customHeight || textHeightWithMargins
-  const canvas = createCanvas(
-    conf.maxWidth,
-    height + conf.bubbleTail.height,
-  );
+  const height = conf.customHeight || textHeightWithMargins;
+  const canvas = createCanvas(conf.maxWidth, height + conf.bubbleTail.height);
 
   const { textData } = createTextData(
     content,
@@ -217,16 +214,14 @@ const createImageCanvas = (content: string, conf: GenerateOptionsRequired) => {
   ctx.globalAlpha = 1;
   ctx.fillStyle = conf.bgColor;
   ctx.fillRect(0, 0, canvas.width, height);
-  
+
   if (conf.bubbleTail.width && conf.bubbleTail.height) {
     ctx.beginPath();
-    ctx.moveTo((canvas.width / 2) - (conf.bubbleTail.width / 2), height);
+    ctx.moveTo(canvas.width / 2 - conf.bubbleTail.width / 2, height);
     ctx.lineTo(canvas.width / 2, canvas.height);
-    ctx.lineTo((canvas.width / 2) + (conf.bubbleTail.width / 2), height);
+    ctx.lineTo(canvas.width / 2 + conf.bubbleTail.width / 2, height);
     ctx.closePath();
     ctx.fillStyle = conf.bgColor;
-    ctx.strokeStyle = conf.bgColor;
-    ctx.stroke();
     ctx.fill();
   }
 
