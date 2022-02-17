@@ -547,4 +547,32 @@ describe('the text-to-image generator', () => {
 
     expect(rgbaSum).toBe(0);
   });
+
+  it('should support speech bubble tail', async () => {
+    const width = 300;
+    const height = 50;
+    const bubbleTailSize = { width: 50, height: 30 };
+
+    const uri = await generate('This is Speech bubble', {
+      maxWidth: width,
+      height: height,
+      bubbleTail: bubbleTailSize,
+    });
+
+    const imageData = await readImageData(uriToBuf(uri));
+
+    const center = width / 2;
+
+    // Check if there's a tail under the square.
+    const whitePixels = countWhitePixels(
+      imageData,
+      center - 0.5,
+      height,
+      center + 0.5,
+      height + bubbleTailSize.height,
+    );
+
+    // The alpha at the bottom vertex of 2 pixels is not 255.
+    expect(whitePixels).toBe(bubbleTailSize.height - 2);
+  });
 });
