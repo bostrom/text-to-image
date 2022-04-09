@@ -1,9 +1,10 @@
-import readimage from 'readimage';
+import readimage, { ReadimageData } from 'readimage';
 
-const uriToBuf = (imageUri) => Buffer.from(imageUri.split(',')[1], 'base64');
+export const uriToBuf = (imageUri: string) =>
+  Buffer.from(imageUri.split(',')[1], 'base64');
 
-const readImageData = (imageData) =>
-  new Promise((resolve, reject) => {
+export const readImageData = (imageData: Buffer) =>
+  new Promise<ReadimageData>((resolve, reject) => {
     readimage(imageData, (err, img) => {
       if (err) {
         reject(err);
@@ -13,7 +14,13 @@ const readImageData = (imageData) =>
     });
   });
 
-const countWhitePixels = (imageData, fromCol, fromRow, toCol, toRow) =>
+export const countWhitePixels = (
+  imageData: ReadimageData,
+  fromCol: number,
+  fromRow: number,
+  toCol: number,
+  toRow: number,
+) =>
   imageData.frames[0].data.reduce(
     (acc, cur, index) =>
       // each pixel has 4 values (RGBA), skip every 4th value (i.e. the alpha)

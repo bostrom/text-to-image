@@ -1,4 +1,6 @@
-function paddedHex(intVal) {
+import { ReadimageData } from 'readimage';
+
+function paddedHex(intVal: number) {
   let s = intVal.toString(16);
   if (s.length === 1) {
     s = `0${s}`;
@@ -7,7 +9,7 @@ function paddedHex(intVal) {
   return s;
 }
 
-function extractColors(image) {
+export default function extractColors(image: ReadimageData) {
   const pixels = image.frames[0].data;
   const colorMap = {};
   for (let i = 0; i < pixels.length; i += 4) {

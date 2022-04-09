@@ -66,7 +66,7 @@ describe('the text-to-image generator', () => {
 
     await fs.promises.rmdir(baseDir, {
       recursive: true,
-      force: true,
+      // force: true,
     });
   });
 
@@ -83,7 +83,6 @@ describe('the text-to-image generator', () => {
 
     await fs.promises.rmdir(baseDir, {
       recursive: true,
-      force: true,
     });
   });
 
@@ -555,7 +554,6 @@ describe('the text-to-image generator', () => {
 
     const uri = await generate('This is Speech bubble', {
       maxWidth: width,
-      height: height,
       bubbleTail: bubbleTailSize,
     });
 

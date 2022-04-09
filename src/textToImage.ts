@@ -244,7 +244,7 @@ const createImageCanvas = (content: string, conf: GenerateOptionsRequired) => {
 
 export const generate = async (
   content: string,
-  config: GenerateOptions,
+  config?: GenerateOptions,
 ): Promise<string> => {
   const conf = { ...defaults, ...config };
   const canvas = createImageCanvas(content, conf);
@@ -263,7 +263,7 @@ export const generate = async (
 
 export const generateSync = (
   content: string,
-  config: GenerateOptions,
+  config?: GenerateOptions,
 ): string => {
   const conf: GenerateOptionsRequired = { ...defaults, ...config };
   const canvas = createImageCanvas(content, conf);

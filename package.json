@@ -27,7 +27,7 @@
     "prepare": "husky install",
     "clean": "rimraf dist",
     "build": "npm run clean && tsc",
-    "test": "jest --coverage",
+    "test": "jest",
     "semantic-release": "semantic-release"
   },
   "dependencies": {
@@ -40,6 +40,7 @@
     "@commitlint/cli": "^16.0.2",
     "@commitlint/config-conventional": "^16.0.0",
     "@tsconfig/node12": "^1.0.9",
+    "@types/jest": "^27.4.1",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
     "babel-jest": "^27.2.4",
