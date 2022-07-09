@@ -51,7 +51,7 @@
     "husky": "^7.0.4",
     "image-size": "^1.0.0",
     "jest": "^27.4.7",
-    "lint-staged": "^12.2.0",
+    "lint-staged": "^13.0.3",
     "prettier": "^2.5.1",
     "readimage": "^1.1.1",
     "rimraf": "^3.0.2",
