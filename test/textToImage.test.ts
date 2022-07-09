@@ -132,7 +132,7 @@ describe('the text-to-image generator', () => {
     const dimensions2 = sizeOf(image2);
 
     expect(dimensions1.height).toBeGreaterThan(0);
-    expect(dimensions1.height).toBeLessThan(dimensions2.height);
+    expect(dimensions1.height).toBeLessThan(dimensions2.height || 0);
     expect(dimensions1.width).toEqual(dimensions2.width);
 
     takeSnapshot(uri1);
@@ -147,7 +147,7 @@ describe('the text-to-image generator', () => {
     const dimensions2 = sizeOf(uriToBuf(uri2));
 
     expect(dimensions1.height).toBeGreaterThan(0);
-    expect(dimensions1.height).toBeLessThan(dimensions2.height);
+    expect(dimensions1.height).toBeLessThan(dimensions2.height || 0);
     expect(dimensions1.width).toEqual(dimensions2.width);
 
     takeSnapshot(uri1);
@@ -162,7 +162,7 @@ describe('the text-to-image generator', () => {
     const dimensions2 = sizeOf(uriToBuf(uri2));
 
     expect(dimensions1.height).toBeGreaterThan(0);
-    expect(dimensions1.height).toBeLessThan(dimensions2.height);
+    expect(dimensions1.height).toBeLessThan(dimensions2.height || 0);
     expect(dimensions1.width).toEqual(dimensions2.width);
 
     takeSnapshot(uri1);
