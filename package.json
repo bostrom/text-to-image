@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@tsconfig/node14": "^1.0.3",
-    "canvas": "^2.6.0"
+    "canvas": "^2.9.3"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
