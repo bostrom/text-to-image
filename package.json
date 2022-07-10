@@ -53,7 +53,7 @@
     "image-size": "^1.0.0",
     "jest": "^28.1.2",
     "lint-staged": "^13.0.3",
-    "prettier": "^2.5.1",
+    "prettier": "^2.7.1",
     "readimage": "^1.1.1",
     "rimraf": "^3.0.2",
     "semantic-release": "^19.0.3",
