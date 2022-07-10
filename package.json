@@ -49,7 +49,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "glob": "^8.0.3",
-    "husky": "^7.0.4",
+    "husky": "^8.0.1",
     "image-size": "^1.0.0",
     "jest": "^28.1.2",
     "lint-staged": "^13.0.3",
