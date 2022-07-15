@@ -1,5 +1,3 @@
-import glob from 'glob';
-import fs from 'fs';
 import path from 'path';
 import sizeOf from 'image-size';
 import extractColors from './helpers/extractColors';
@@ -10,30 +8,9 @@ import {
 } from './helpers/readImageData';
 import longInput from './helpers/longInput';
 import { generate, generateSync } from '../src/textToImage';
-
-// For development purposes only.
-// We can't commit the snapshots since they
-// will differ ever so slighly in the CI environment
-// and fail our tests. So we use the snapshots only as
-// regression detectors when developing (taking snapshots
-// before refactor/feature and verifying that nothing changed
-// after). To be disabled and snapshots removed before
-// committing.
-const snapshots = false;
-function takeSnapshot(data) {
-  if (snapshots) {
-    expect(data).toMatchSnapshot();
-  }
-}
+import takeSnapshot from './helpers/takeSnapshot';
 
 describe('the text-to-image generator', () => {
-  afterEach(async () => {
-    // remove all pngs created by the lib in debug mode
-    const pngs = glob.sync(path.join(process.cwd(), '*.png'));
-    await Promise.all(pngs.map((item) => fs.promises.unlink(item)));
-    delete process.env.DEBUG;
-  });
-
   it('should return a promise', (done) => {
     expect(generate('Hello world')).toBeInstanceOf(Promise);
     done();
@@ -43,80 +20,12 @@ describe('the text-to-image generator', () => {
     expect(typeof generateSync('Hello world')).toEqual('string');
   });
 
-  it('should support debug in sync mode', () => {
-    generateSync('Hello world', {
-      debug: true,
-      debugFilename: '1_sync_debug.png',
-    });
-
-    const images = glob.sync(path.join(process.cwd(), '1_sync_debug.png'));
-    expect(images.length).toBe(1);
-  });
-
-  it('should support custom filepaths in sync debug mode', async () => {
-    const baseDir = path.join(process.cwd(), 'test', 'custom_path');
-    const filePath = path.join(baseDir, 'to', '1_path_debug.png');
-    generateSync('Hello world', {
-      debug: true,
-      debugFilename: filePath,
-    });
-
-    const images = glob.sync(filePath);
-    expect(images.length).toBe(1);
-
-    await fs.promises.rmdir(baseDir, {
-      recursive: true,
-      // force: true,
-    });
-  });
-
-  it('should support custom filepaths in async debug mode', async () => {
-    const baseDir = path.join(process.cwd(), 'test', 'custom_path');
-    const filePath = path.join(baseDir, 'to', '1_path_debug.png');
-    await generate('Hello world', {
-      debug: true,
-      debugFilename: filePath,
-    });
-
-    const images = glob.sync(filePath);
-    expect(images.length).toBe(1);
-
-    await fs.promises.rmdir(baseDir, {
-      recursive: true,
-    });
-  });
-
-  it('should support default debug filename in sync mode', () => {
-    generateSync('Hello world', {
-      debug: true,
-    });
-
-    const images = glob.sync(path.join(process.cwd(), '*.png'));
-    expect(images.length).toBe(1);
-  });
-
   it('should generate an image data url', async () => {
     const dataUri = await generate('Hello world');
 
     expect(dataUri).toMatch(/^data:image\/png;base64/);
 
     takeSnapshot(dataUri);
-  });
-
-  it('should create a png file in debug mode', async () => {
-    await generate('Hello world', {
-      debug: true,
-    });
-
-    const files = glob.sync(path.join(process.cwd(), '*.png'));
-    expect(files.length).toEqual(1);
-  });
-
-  it('should not create a file if not in debug mode', async () => {
-    await generate('Hello world');
-
-    const files = glob.sync(path.join(process.cwd(), '*.png'));
-    expect(files.length).toEqual(0);
   });
 
   it("should generate equal width but longer png when there's plenty of text", async () => {

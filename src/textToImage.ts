@@ -1,37 +1,14 @@
-import { dirname, resolve } from 'path';
-import { writeFileSync, mkdirSync, writeFile, mkdir } from 'fs';
-import { promisify } from 'util';
 import { createCanvas, registerFont, Canvas } from 'canvas';
-
-const writeFileAsync = promisify(writeFile);
-const mkdirAsync = promisify(mkdir);
-
-interface GenerateOptions {
-  bgColor?: string | CanvasGradient | CanvasPattern;
-  customHeight?: number;
-  bubbleTail?: { width: number; height: number };
-  debug?: boolean;
-  debugFilename?: string;
-  fontFamily?: string;
-  fontPath?: string;
-  fontSize?: number;
-  fontWeight?: string | number;
-  lineHeight?: number;
-  margin?: number;
-  maxWidth?: number;
-  textAlign?: CanvasTextAlign;
-  textColor?: string;
-  verticalAlign?: string;
-}
-
-type GenerateOptionsRequired = Required<GenerateOptions>;
+import {
+  GenerateFunction,
+  GenerateOptions,
+  GenerateOptionsRequired,
+} from './types';
 
 const defaults = {
   bgColor: '#fff',
   customHeight: 0,
   bubbleTail: { width: 0, height: 0 },
-  debug: false,
-  debugFilename: '',
   fontFamily: 'Helvetica',
   fontPath: '',
   fontSize: 18,
@@ -42,6 +19,7 @@ const defaults = {
   textAlign: 'left' as const,
   textColor: '#000',
   verticalAlign: 'top',
+  debug: () => undefined,
 };
 
 const createTextData = (
@@ -242,40 +220,30 @@ const createImageCanvas = (content: string, conf: GenerateOptionsRequired) => {
   return canvas;
 };
 
-export const generate = async (
-  content: string,
-  config?: GenerateOptions,
-): Promise<string> => {
-  const conf = { ...defaults, ...config };
+export const generate: GenerateFunction = async (
+  content,
+  config?,
+  callback?,
+) => {
+  const conf: GenerateOptionsRequired = { ...defaults, ...config };
   const canvas = createImageCanvas(content, conf);
-  const dataUrl = canvas.toDataURL();
 
-  if (conf.debug) {
-    const fileName =
-      conf.debugFilename ||
-      `${new Date().toISOString().replace(/[\W.]/g, '')}.png`;
-    await mkdirAsync(resolve(dirname(fileName)), { recursive: true });
-    await writeFileAsync(fileName, canvas.toBuffer());
+  if (callback) {
+    await callback(canvas);
   }
 
+  const dataUrl = canvas.toDataURL();
   return dataUrl;
 };
 
-export const generateSync = (
-  content: string,
-  config?: GenerateOptions,
-): string => {
+export const generateSync: GenerateFunction = (content, config?, callback?) => {
   const conf: GenerateOptionsRequired = { ...defaults, ...config };
   const canvas = createImageCanvas(content, conf);
-  const dataUrl = canvas.toDataURL();
 
-  if (conf.debug) {
-    const fileName =
-      conf.debugFilename ||
-      `${new Date().toISOString().replace(/[\W.]/g, '')}.png`;
-    mkdirSync(resolve(dirname(fileName)), { recursive: true });
-    writeFileSync(fileName, canvas.toBuffer());
+  if (callback) {
+    callback(canvas);
   }
 
+  const dataUrl = canvas.toDataURL();
   return dataUrl;
 };
