@@ -7,8 +7,9 @@ import {
   countWhitePixels,
 } from './helpers/readImageData';
 import longInput from './helpers/longInput';
-import { generate, generateSync } from '../src/textToImage';
+import { generate, generateSync } from '../src';
 import takeSnapshot from './helpers/takeSnapshot';
+import { Canvas } from '../src/extensions';
 
 describe('the text-to-image generator', () => {
   it('should return a promise', (done) => {
@@ -481,5 +482,11 @@ describe('the text-to-image generator', () => {
 
     // The alpha at the bottom vertex of 2 pixels is not 255.
     expect(whitePixels).toBe(bubbleTailSize.height - 2);
+  });
+
+  it('should support a callback function', async () => {
+    await generate('Lorem ipsum dolor sit amet.', {}, (canvas) => {
+      expect(canvas).toBeDefined();
+    });
   });
 });
