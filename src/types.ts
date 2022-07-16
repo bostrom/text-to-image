@@ -1,19 +1,13 @@
 import { Canvas } from 'canvas';
 
-export type GenerateFunction = (
+export type GenerateFunction<T extends GenerateOptions> = (
   content: string,
-  config?: GenerateOptions,
-  callback?: GenerateCallback,
+  config?: T,
 ) => string | Promise<string>;
-
-export type GenerateCallback = (
-  canvas: Canvas,
-) => void | undefined | Promise<void | undefined>;
 
 export interface GenerateOptions {
   bgColor?: string | CanvasGradient | CanvasPattern;
   customHeight?: number;
-  bubbleTail?: { width: number; height: number };
   fontFamily?: string;
   fontPath?: string;
   fontSize?: number;
@@ -24,9 +18,28 @@ export interface GenerateOptions {
   textAlign?: CanvasTextAlign;
   textColor?: string;
   verticalAlign?: string;
+  extensions?: Array<Extension>;
 }
 
-export type GenerateOptionsRequired = Required<GenerateOptions>;
+export interface GenerateOptionsAsync extends GenerateOptions {
+  extensions?: Array<Extension>;
+}
+
+export interface GenerateOptionsSync extends GenerateOptions {
+  extensions?: Array<SyncExtension>;
+}
+
+export type SyncExtension = (canvas: Canvas, config: ComputedOptions) => Canvas;
+
+export type AsyncExtension = (
+  canvas: Canvas,
+  config: ComputedOptions,
+) => Promise<Canvas>;
+
+export type Extension = SyncExtension | AsyncExtension;
+
+export type ComputedOptions<T extends GenerateOptions = GenerateOptions> =
+  Required<T>;
 
 export interface fileWriterOptions {
   fileName?: string;

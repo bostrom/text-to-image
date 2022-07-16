@@ -16,9 +16,9 @@ Originally part of a Twitter bot for publishing tweets longer than 140 character
 - [Usage](#usage)
 - [Text formatting rules](#text-formatting-rules)
 - [Configuring (GenerateOptions)](#configuring-generateoptions)
-- [Callback function (GenerateCallback)](#callback-function-generatecallback)
 - [Extensions](#extensions)
   - [Debugging with the `fileWriter` extension](#debugging-with-the-filewriter-extension)
+  - [Creating speech bubbles with the `bubbleTail` extension](#creating-speech-bubbles-with-the-bubbletail-extension)
 - [Test](#test)
 - [Contributing](#contributing)
 - [License](#license)
@@ -38,8 +38,7 @@ Use [this CodeSandbox](https://codesandbox.io/s/text-to-image-example-r8h1o?file
 The signature for both the syncronous and asyncronous functions is
 
 ```typescript
-(content: string, config?: GenerateOptions, callback?: GenerateCallback) =>
-  string | Promise<string>;
+(content: string, config?: GenerateOptions) => string | Promise<string>;
 ```
 
 See [below](#generateoptions) for documentation on the function arguments.
@@ -101,21 +100,21 @@ The `generate` and `generateSync` functions take an optional second parameter co
 
 The available options are as follows.
 
-| Name          | Type                                      | Default value           | Description                                                                                                                                                                                                                              |
-| ------------- | ----------------------------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| bgColor       | string \| CanvasGradient \| CanvasPattern | #FFFFFF                 | Sets the background color of the image. See [CanvasRenderingContext2D.fillStyle](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle) for valid values, or use a color value validator (see note above). |
-| bubbleTail    | { width: number; height: number }         | { width: 0, height: 0 } | Renders a speech bubble tail with the specified size at the bottom center of the image.                                                                                                                                                  |
-| customHeight  | number                                    | 0                       | Sets the height of the generated image in pixels. If falsy, will automatically calculate the height based on the amount of text.                                                                                                         |
-| fontFamily    | string                                    | Helvetica               | The font family to use for the text in the image. See [CSS font-family](https://developer.mozilla.org/en-US/docs/Web/CSS/font-family) for valid values.                                                                                  |
-| fontPath      | string                                    |                         | The file system path to a font file to use, also specify `fontFamily` if you use this.                                                                                                                                                   |
-| fontSize      | number                                    | 18                      | The font size to use for the text in the image. See [CSS font-size](https://developer.mozilla.org/en-US/docs/Web/CSS/font-size) for valid values.                                                                                        |
-| fontWeight    | string \| number                          | normal                  | The font weight to use for the text in the image. See [CSS font-weight](https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight) for valid values.                                                                                  |
-| lineHeight    | number                                    | 28                      | The line height for the generated text.                                                                                                                                                                                                  |
-| margin        | number                                    | 10                      | The margin (all sides) between the text and the border of the image.                                                                                                                                                                     |
-| maxWidth      | number                                    | 400                     | Sets the width of the generated image in pixels.                                                                                                                                                                                         |
-| textAlign     | string                                    | left                    | The text alignment for the generated text. See [CanvasRenderingContext2D.textAlign](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/textAlign) for valid values.                                               |
-| textColor     | string                                    | #000000                 | Sets the text color. See [CanvasRenderingContext2D.fillStyle](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle) for valid values, or use a color value validator (see note above).                    |
-| verticalAlign | string                                    | top                     | Use to set center height with `customHeight` (possible values: `top`, `center`).                                                                                                                                                         |
+| Name          | Type                                      | Default value | Description                                                                                                                                                                                                                              |
+| ------------- | ----------------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| bgColor       | string \| CanvasGradient \| CanvasPattern | #FFFFFF       | Sets the background color of the image. See [CanvasRenderingContext2D.fillStyle](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle) for valid values, or use a color value validator (see note above). |
+| customHeight  | number                                    | 0             | Sets the height of the generated image in pixels. If falsy, will automatically calculate the height based on the amount of text.                                                                                                         |
+| extensions    | Array&lt;Extension&gt;                    | []            | An array of [Extensions](#extensions).                                                                                                                                                                                                   |
+| fontFamily    | string                                    | Helvetica     | The font family to use for the text in the image. See [CSS font-family](https://developer.mozilla.org/en-US/docs/Web/CSS/font-family) for valid values.                                                                                  |
+| fontPath      | string                                    |               | The file system path to a font file to use, also specify `fontFamily` if you use this.                                                                                                                                                   |
+| fontSize      | number                                    | 18            | The font size to use for the text in the image. See [CSS font-size](https://developer.mozilla.org/en-US/docs/Web/CSS/font-size) for valid values.                                                                                        |
+| fontWeight    | string \| number                          | normal        | The font weight to use for the text in the image. See [CSS font-weight](https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight) for valid values.                                                                                  |
+| lineHeight    | number                                    | 28            | The line height for the generated text.                                                                                                                                                                                                  |
+| margin        | number                                    | 10            | The margin (all sides) between the text and the border of the image.                                                                                                                                                                     |
+| maxWidth      | number                                    | 400           | Sets the width of the generated image in pixels.                                                                                                                                                                                         |
+| textAlign     | string                                    | left          | The text alignment for the generated text. See [CanvasRenderingContext2D.textAlign](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/textAlign) for valid values.                                               |
+| textColor     | string                                    | #000000       | Sets the text color. See [CanvasRenderingContext2D.fillStyle](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle) for valid values, or use a color value validator (see note above).                    |
+| verticalAlign | string                                    | top           | Use to set center height with `customHeight` (possible values: `top`, `center`).                                                                                                                                                         |
 
 Example:
 
@@ -133,89 +132,67 @@ const dataUri = await generate('Lorem ipsum dolor sit amet', {
 });
 ```
 
-## Callback function (GenerateCallback)
-
-The `generate` and `generateSync` functions take an optional third parameter containing a callback function with the signature
-
-```typescript
-(canvas: Canvas) => void | undefined | Promise<void | undefined>
-```
-
-The function will be called with the internal canvas instance just before the data URL is generated and returned from the main function, i.e. when all the drawing on the canvas is done, but before the data URL is created. The canvas instance can be used for [debugging purposes](#debugging-with-the-filewriter-extension) or for further refinement of the final image.
-
-> Note that in `generateSync` the callback will be called synchronously, too. If your callback function contains asyncronous code, use the async `generate` function instead.
-
-Example:
-
-```typescript
-import { generate } from 'text-to-image';
-import { writeFile } from 'fs/promises';
-
-const dataUri = await generate(
-  'Lorem ipsum dolor sit amet',
-  {
-    textColor: 'red',
-  },
-  async (canvas) => {
-    await writeFile('debug.png', canvas.toBuffer());
-  },
-);
-```
-
 ## Extensions
 
-As seen in the previous section, the callback function can be used to make additional modifications to the produced canvas before the data URL is returned from the main function. This enables us to introduce _extensions_ in the form of functions that use the canvas in some fashion. The extensions can be used in the callback function and passed the canvas received through the callback function arguments.
-
-Example:
+Extensions are a form of middleware that can be used to produce side-effects or manipulate the image beyond the core functionality _before_ the final data URL is formed and returned. An extension is a function that takes the `Canvas` instance and a `ComputedOptions` object (the original configuration object augmented with defaults for omitted values) as arguments and returns a `Canvas`. Each extension will get the Canvas returned by the previous extension. The canvas returned by the last extension will be used when producing the final data URL.
 
 ```typescript
-import { generate } from 'text-to-image';
+(canvas: Canvas, conf: ComputedOptions) => Canvas | Promise<Canvas>;
+```
+
+> Note that all extensions for `generateSync` must be synchronous, too. If your extension contains asyncronous code, use the async `generate` function instead.
+
+The following example extension draws a border around the image 5px from the edge using the configured text color.
+
+```typescript
+import { generate, ComputedOptions } from 'text-to-image';
 // All types from 'node-canvas' are re-exported for convenience
 import { Canvas } from 'text-to-image/extensions';
 
-const makeBorder = (canvas: Canvas) => {
+const makeBorder = (canvas: Canvas, conf: ComputedOptions) => {
   const { width, height } = canvas;
   const ctx = canvas.getContext('2d');
-  ctx.strokeStyle = 'green';
+  ctx.strokeStyle = conf.textColor;
   ctx.strokeRect(5, 5, width - 10, height - 10);
+  return canvas;
 };
 
-const dataUri = await generate(
-  'Lorem ipsum dolor sit amet',
-  {
-    textColor: 'red',
-  },
-  (canvas) => {
-    makeBorder(canvas);
-    // someOtherExtension(canvas);
-    // yetAnotherExtension(canvas);
-  },
-);
+const uri = await generate('Lorem ipsum dolor sit amet', {
+  textColor: 'green',
+  extensions: [makeBorder],
+});
 ```
 
-If you publish your own extensions and want them listed here, please [contact me](@bostrom).
+If your extension needs to take some configuration parameters, then it's advisable to create an extension factory function. The following example extension factory takes the padding size as argument and returns an extension.
+
+```typescript
+const makeBorder =
+  (padding: number) => (canvas: Canvas, conf: ComputedOptions) => {
+    const { width, height } = canvas;
+    const ctx = canvas.getContext('2d');
+    ctx.strokeStyle = conf.textColor;
+    ctx.strokeRect(padding, padding, width - padding * 2, height - padding * 2);
+    return canvas;
+  };
+
+const uri = await generate('Lorem ipsum dolor sit amet', {
+  textColor: 'green',
+  extensions: [makeBorder(2)],
+});
+```
 
 ### Debugging with the `fileWriter` extension
 
-To facilitate the debugging scenario outlined in the [Callback function](#callback-function-generatecallback) example, a `fileWriter` extensions is included in the library.
-
-Without configuration the `fileWriter` extension saves the generated image as a PNG in the current working directory (where the process was started). The image name will be the current date and time.
-
-Example:
+Without configuration the `fileWriter` extension saves the current canvas as a PNG in the current working directory (where the process was started). The name of the image will be the current date and time. This facilitates debugging the image generation as the produced image can be viewed as an image file instead of a data URL.
 
 ```typescript
 import { generate } from 'text-to-image';
 import fileWriter from 'text-to-image/extensions/fileWriter';
 
-const dataUri = await generate(
-  'Lorem ipsum dolor sit amet',
-  {
-    textColor: 'red',
-  },
-  (canvas) => {
-    fileWriter(canvas),
-  }
-);
+const dataUri = await generate('Lorem ipsum dolor sit amet', {
+  textColor: 'red',
+  extensions: [fileWriter()],
+});
 ```
 
 For more control over the file name and location, specify the `fileName` option to the `fileWriter`. The `fileName` can include path segments in addition to the file name. A relative path (or only a file name without path) will be resolved starting from the current working directory. Any missing parent directories to the file will be created as needed.
@@ -223,23 +200,35 @@ For more control over the file name and location, specify the `fileName` option 
 Example:
 
 ```typescript
+import path from 'path';
 import { generate } from 'text-to-image';
 import fileWriter from 'text-to-image/extensions/fileWriter';
 
-const dataUri = await generate(
-  'Lorem ipsum dolor sit amet',
-  {
-    textColor: 'red',
-  },
-  (canvas) => {
-    fileWriter(canvas, {
+const dataUri = await generate('Lorem ipsum dolor sit amet', {
+  textColor: 'red',
+  extensions: [
+    fileWriter({
       fileName: path.join('some', 'custom', 'path', 'to', 'debug_file.png'),
     }),
-  }
-);
+  ],
+});
 ```
 
 This will create the debug file `some/custom/path/to/debug_file.png` in the current working directory.
+
+### Creating speech bubbles with the `bubbleTail` extension
+
+The `bubbleTail` extension will draw a speech bubble "tail", a triangle at the bottom of the image. It takes the desired width and height of the tail as configuration parameters.
+
+```typescript
+import { generate } from 'text-to-image';
+import bubbleTail from 'text-to-image/extensions/bubbleTail';
+
+const dataUri = await generate('Lorem ipsum dolor sit amet', {
+  textColor: 'red',
+  extensions: [bubbleTail({ width: 30, height: 20 })],
+});
+```
 
 ## Test
 

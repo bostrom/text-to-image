@@ -1,14 +1,14 @@
 import { createCanvas, registerFont, Canvas } from 'canvas';
 import {
   GenerateFunction,
-  GenerateOptions,
-  GenerateOptionsRequired,
+  ComputedOptions,
+  GenerateOptionsAsync,
+  GenerateOptionsSync,
 } from './types';
 
 const defaults = {
   bgColor: '#fff',
   customHeight: 0,
-  bubbleTail: { width: 0, height: 0 },
   fontFamily: 'Helvetica',
   fontPath: '',
   fontSize: 18,
@@ -19,12 +19,12 @@ const defaults = {
   textAlign: 'left' as const,
   textColor: '#000',
   verticalAlign: 'top',
-  debug: () => undefined,
+  extensions: [],
 };
 
 const createTextData = (
   text: string,
-  config: GenerateOptionsRequired,
+  config: ComputedOptions,
   canvas?: Canvas,
 ) => {
   const {
@@ -134,7 +134,7 @@ const createTextData = (
   };
 };
 
-const createImageCanvas = (content: string, conf: GenerateOptionsRequired) => {
+const createImageCanvas = (content: string, conf: ComputedOptions) => {
   // First pass: measure the text so we can create a canvas
   // big enough to fit the text. This has to be done since we can't
   // resize the canvas on the fly without losing the settings of the 2D context
@@ -142,7 +142,7 @@ const createImageCanvas = (content: string, conf: GenerateOptionsRequired) => {
   const { textHeight } = createTextData(
     content,
     // max width of text itself must be the image max width reduced by left-right margins
-    <GenerateOptionsRequired>{
+    <ComputedOptions>{
       maxWidth: conf.maxWidth - conf.margin * 2,
       fontSize: conf.fontSize,
       lineHeight: conf.lineHeight,
@@ -166,12 +166,12 @@ const createImageCanvas = (content: string, conf: GenerateOptionsRequired) => {
   // so let's create the final canvas with the given height and width
   // and pass that to createTextData so we can get the text data from it
   const height = conf.customHeight || textHeightWithMargins;
-  const canvas = createCanvas(conf.maxWidth, height + conf.bubbleTail.height);
+  const canvas = createCanvas(conf.maxWidth, height);
 
   const { textData } = createTextData(
     content,
     // max width of text itself must be the image max width reduced by left-right margins
-    <GenerateOptionsRequired>{
+    <ComputedOptions>{
       maxWidth: conf.maxWidth - conf.margin * 2,
       fontSize: conf.fontSize,
       lineHeight: conf.lineHeight,
@@ -193,16 +193,6 @@ const createImageCanvas = (content: string, conf: GenerateOptionsRequired) => {
   ctx.fillStyle = conf.bgColor;
   ctx.fillRect(0, 0, canvas.width, height);
 
-  if (conf.bubbleTail.width && conf.bubbleTail.height) {
-    ctx.beginPath();
-    ctx.moveTo(canvas.width / 2 - conf.bubbleTail.width / 2, height);
-    ctx.lineTo(canvas.width / 2, canvas.height);
-    ctx.lineTo(canvas.width / 2 + conf.bubbleTail.width / 2, height);
-    ctx.closePath();
-    ctx.fillStyle = conf.bgColor;
-    ctx.fill();
-  }
-
   const textX = conf.margin;
   let textY = conf.margin;
   if (conf.customHeight && conf.verticalAlign === 'center') {
@@ -220,30 +210,42 @@ const createImageCanvas = (content: string, conf: GenerateOptionsRequired) => {
   return canvas;
 };
 
-export const generate: GenerateFunction = async (
+export const generate: GenerateFunction<GenerateOptionsAsync> = async (
   content,
-  config?,
-  callback?,
+  config,
 ) => {
-  const conf: GenerateOptionsRequired = { ...defaults, ...config };
+  const conf: ComputedOptions<GenerateOptionsAsync> = {
+    ...defaults,
+    ...config,
+  };
   const canvas = createImageCanvas(content, conf);
 
-  if (callback) {
-    await callback(canvas);
-  }
+  const finalCanvas = await conf.extensions.reduce<Promise<Canvas>>(
+    async (prevCanvasPromise, extension) => {
+      const resolvedPrev = await prevCanvasPromise;
+      return extension(resolvedPrev, conf);
+    },
+    Promise.resolve(canvas),
+  );
 
-  const dataUrl = canvas.toDataURL();
+  const dataUrl = finalCanvas.toDataURL();
   return dataUrl;
 };
 
-export const generateSync: GenerateFunction = (content, config?, callback?) => {
-  const conf: GenerateOptionsRequired = { ...defaults, ...config };
+export const generateSync: GenerateFunction<GenerateOptionsSync> = (
+  content,
+  config,
+) => {
+  const conf: ComputedOptions<GenerateOptionsSync> = { ...defaults, ...config };
   const canvas = createImageCanvas(content, conf);
 
-  if (callback) {
-    callback(canvas);
-  }
+  const finalCanvas = conf.extensions.reduce<Canvas>(
+    (prevCanvas, extension) => {
+      return extension(prevCanvas, conf);
+    },
+    canvas,
+  );
 
-  const dataUrl = canvas.toDataURL();
+  const dataUrl = finalCanvas.toDataURL();
   return dataUrl;
 };

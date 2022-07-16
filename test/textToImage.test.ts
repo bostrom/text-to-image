@@ -9,7 +9,8 @@ import {
 import longInput from './helpers/longInput';
 import { generate, generateSync } from '../src';
 import takeSnapshot from './helpers/takeSnapshot';
-import { Canvas } from '../src/extensions';
+import { Canvas } from 'canvas';
+import { ComputedOptions, Extension } from '../src/types';
 
 describe('the text-to-image generator', () => {
   it('should return a promise', (done) => {
@@ -457,36 +458,17 @@ describe('the text-to-image generator', () => {
     expect(rgbaSum).toBe(0);
   });
 
-  it('should support speech bubble tail', async () => {
-    const width = 300;
-    const height = 50;
-    const bubbleTailSize = { width: 50, height: 30 };
-
-    const uri = await generate('This is Speech bubble', {
-      maxWidth: width,
-      bubbleTail: bubbleTailSize,
-    });
-
-    const imageData = await readImageData(uriToBuf(uri));
-
-    const center = width / 2;
-
-    // Check if there's a tail under the square.
-    const whitePixels = countWhitePixels(
-      imageData,
-      center - 0.5,
-      height,
-      center + 0.5,
-      height + bubbleTailSize.height,
-    );
-
-    // The alpha at the bottom vertex of 2 pixels is not 255.
-    expect(whitePixels).toBe(bubbleTailSize.height - 2);
-  });
-
-  it('should support a callback function', async () => {
-    await generate('Lorem ipsum dolor sit amet.', {}, (canvas) => {
-      expect(canvas).toBeDefined();
+  it('should support extensions', async () => {
+    expect.assertions(2);
+    await generate('Lorem ipsum dolor sit amet.', {
+      customHeight: 200,
+      extensions: [
+        (canvas: Canvas, conf: ComputedOptions) => {
+          expect(canvas.height).toBe(200);
+          expect(conf.customHeight).toBe(200);
+          return canvas;
+        },
+      ],
     });
   });
 });
