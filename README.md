@@ -19,6 +19,7 @@ Originally part of a Twitter bot for publishing tweets longer than 140 character
 - [Extensions](#extensions)
   - [Debugging with the `fileWriter` extension](#debugging-with-the-filewriter-extension)
   - [Creating speech bubbles with the `bubbleTail` extension](#creating-speech-bubbles-with-the-bubbletail-extension)
+- [Typescript](#typescript)
 - [Test](#test)
 - [Contributing](#contributing)
 - [License](#license)
@@ -134,11 +135,13 @@ const dataUri = await generate('Lorem ipsum dolor sit amet', {
 
 ## Extensions
 
-Extensions are a form of middleware that can be used to produce side-effects or manipulate the image beyond the core functionality _before_ the final data URL is formed and returned. An extension is a function that takes the `Canvas` instance and a `ComputedOptions` object (the original configuration object augmented with defaults for omitted values) as arguments and returns a `Canvas`. Each extension will get the Canvas returned by the previous extension. The canvas returned by the last extension will be used when producing the final data URL.
+Extensions are a form of middleware that can be used to produce side-effects or manipulate the image beyond the core functionality _before_ the final data URL is formed and returned. An extension is a function that takes the `Canvas` instance and a `ComputedOptions` object (the original configuration object augmented with defaults for omitted values) as arguments and returns a `Canvas`.
 
 ```typescript
 (canvas: Canvas, conf: ComputedOptions) => Canvas | Promise<Canvas>;
 ```
+
+Each extension will receive the canvas returned by the previous extension. The canvas returned by the last extension will be used when producing the final data URL.
 
 > Note that all extensions for `generateSync` must be synchronous, too. If your extension contains asyncronous code, use the async `generate` function instead.
 
@@ -229,6 +232,21 @@ const dataUri = await generate('Lorem ipsum dolor sit amet', {
   extensions: [bubbleTail({ width: 30, height: 20 })],
 });
 ```
+
+## Typescript
+
+For imports to work correctly with TypeScript, make sure you're using **typescript version 4.7 or higher** and have the following configuration in your `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "module": "Node16",
+    "moduleResolution": "node16"
+  }
+}
+```
+
+See discussion in https://github.com/microsoft/TypeScript/issues/33079 for more information.
 
 ## Test
 

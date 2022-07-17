@@ -17,12 +17,15 @@
     "twitter"
   ],
   "license": "ISC",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/types.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
+  "exports": {
+    ".": "./dist/index.js",
+    "./extensions": "./dist/extensions/types.js",
+    "./extensions/*": "./dist/extensions/*.js"
+  },
   "scripts": {
     "prepare": "husky install",
     "clean": "rimraf dist",
