@@ -1,7 +1,7 @@
 import glob from 'glob';
 import fs from 'fs';
 import path from 'path';
-import { generate, generateSync } from '../src/index';
+import { generate, generateSync } from '../src';
 import fileWriter from '../src/extensions/fileWriter';
 
 describe('fileWriter extension', () => {
