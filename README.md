@@ -1,5 +1,3 @@
-> The all new version 6.0.0 with **extensions** now in [beta](https://github.com/bostrom/text-to-image/tree/beta)! Please try it out using `npm i text-to-image@beta` and report any issues 🙏
-
 # Text to image
 
 [![Code Coverage](https://img.shields.io/coveralls/bostrom/text-to-image.svg)](https://coveralls.io/github/bostrom/text-to-image)
@@ -15,6 +13,12 @@ Originally part of a Twitter bot for publishing tweets longer than 140 character
 Use [this CodeSandbox](https://codesandbox.io/s/text-to-image-example-r8h1o?file=/src/index.ts) to try out text-to-image in your browser.
 
 ## Installation
+
+> **Note**
+>
+> The all new version 6.0.0 with **extensions** now in beta! 
+>
+> Please try it out using `npm i text-to-image@beta`, read the [documentation](https://github.com/bostrom/text-to-image/tree/beta) and [report any issues](https://github.com/bostrom/text-to-image/issues/new/choose) 🙏
 
     npm i text-to-image
 
