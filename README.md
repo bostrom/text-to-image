@@ -1,3 +1,5 @@
+> The all new version 6.0.0 with **extensions** now in [beta](https://github.com/bostrom/text-to-image/tree/beta)! Please try it out using `npm i text-to-image@beta` and report any issues 🙏
+
 # Text to image
 
 [![Code Coverage](https://img.shields.io/coveralls/bostrom/text-to-image.svg)](https://coveralls.io/github/bostrom/text-to-image)
