@@ -240,7 +240,7 @@ For imports to work correctly with TypeScript, make sure you're using **typescri
 ```json
 {
   "compilerOptions": {
-    "module": "Node16",
+    "module": "node16",
     "moduleResolution": "node16"
   }
 }
