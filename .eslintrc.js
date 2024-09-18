@@ -1,7 +1,6 @@
 module.exports = {
   env: {
     node: true,
-    jest: true,
   },
   extends: [
     'prettier',
@@ -13,4 +12,12 @@ module.exports = {
   rules: {
     curly: ['error', 'all'],
   },
+  overrides: [
+    {
+      files: ['test/**/*'],
+      env: {
+        jest: true,
+      },
+    },
+  ],
 };
