@@ -11,7 +11,7 @@ function paddedHex(intVal: number) {
 
 export default function extractColors(image: ReadimageData) {
   const pixels = image.frames[0].data;
-  const colorMap = {};
+  const colorMap: Record<string, number> = {};
   for (let i = 0; i < pixels.length; i += 4) {
     const r = pixels[i];
     const g = pixels[i + 1];

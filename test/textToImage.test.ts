@@ -10,7 +10,7 @@ import longInput from './helpers/longInput';
 import { generate, generateSync } from '../src';
 import takeSnapshot from './helpers/takeSnapshot';
 import { Canvas } from 'canvas';
-import { ComputedOptions, Extension } from '../src/types';
+import { ComputedOptions } from '../src/types';
 
 describe('the text-to-image generator', () => {
   it('should return a promise', (done) => {
