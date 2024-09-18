@@ -1,5 +1,3 @@
-> The all new version 6.0.0 with **extensions** is now released as [@next](https://github.com/bostrom/text-to-image/tree/next)! Please try it out using `npm i text-to-image@next` and report any issues 🙏
-
 # Text to image
 
 [![Code Coverage](https://img.shields.io/coveralls/bostrom/text-to-image.svg)](https://coveralls.io/github/bostrom/text-to-image)
