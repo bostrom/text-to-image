@@ -1,5 +1,5 @@
 {
-  "extends": "@tsconfig/node14/tsconfig.json",
+  "extends": "@tsconfig/node-lts/tsconfig.json",
   "compilerOptions": {
     "allowJs": true,
     "declaration": true,
@@ -10,5 +10,5 @@
     "sourceMap": true,
     "strict": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "types/**/*", "test/**/*"]
 }
