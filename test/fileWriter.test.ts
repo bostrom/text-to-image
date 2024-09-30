@@ -52,7 +52,7 @@ describe('fileWriter extension', () => {
     const images = glob.sync(filePath);
     expect(images.length).toBe(1);
 
-    await fs.promises.rmdir(baseDir, {
+    await fs.promises.rm(baseDir, {
       recursive: true,
       // force: true,
     });
