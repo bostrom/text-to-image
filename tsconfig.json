@@ -1,14 +1,12 @@
 {
-  "extends": "@tsconfig/node-lts/tsconfig.json",
+  "extends": "@tsconfig/recommended/tsconfig.json",
   "compilerOptions": {
-    "allowJs": true,
+    "strict": true,
     "declaration": true,
-    "noImplicitAny": true,
     "outDir": "dist",
     "preserveConstEnums": true,
     "removeComments": true,
-    "sourceMap": true,
-    "strict": true
+    "sourceMap": true
   },
   "include": ["src/**/*", "types/**/*"]
 }
