@@ -22,7 +22,10 @@
     "dist"
   ],
   "exports": {
-    ".": "./dist/index.js",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
     "./extensions/fileWriter": {
       "types": "./dist/extensions/fileWriter.d.ts",
       "default": "./dist/extensions/fileWriter.js"
