@@ -23,7 +23,6 @@
   ],
   "exports": {
     ".": "./dist/index.js",
-    "./extensions": "./dist/extensions/types.js",
     "./extensions/*": "./dist/extensions/*.js"
   },
   "scripts": {
