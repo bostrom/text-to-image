@@ -435,7 +435,7 @@ describe('the text-to-image generator', () => {
     const whitePixels1 = countWhitePixels(imageData, 0, 0, 20, 30);
     expect(whitePixels1).toBe(20 * 30);
 
-    const whitePixels2 = countWhitePixels(imageData, 0, 60, 30, 90);
+    const whitePixels2 = countWhitePixels(imageData, 0, 90, 30, 120);
     expect(whitePixels2).toBe(30 * 30);
 
     takeSnapshot(uri);
