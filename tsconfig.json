@@ -10,5 +10,5 @@
     "sourceMap": true,
     "strict": true
   },
-  "include": ["src/**/*", "types/**/*", "test/**/*"]
+  "include": ["src/**/*", "types/**/*"]
 }
