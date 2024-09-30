@@ -1,5 +1,7 @@
 import { Canvas, CanvasGradient, CanvasPattern, CanvasTextAlign } from 'canvas';
 
+export type * from 'canvas';
+
 export type GenerateFunction<T extends GenerateOptions> = (
   content: string,
   config?: T,
