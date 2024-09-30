@@ -23,7 +23,14 @@
   ],
   "exports": {
     ".": "./dist/index.js",
-    "./extensions/*": "./dist/extensions/*.js"
+    "./extensions/fileWriter": {
+      "types": "./dist/extensions/fileWriter.d.ts",
+      "default": "./dist/extensions/fileWriter.js"
+    },
+    "./extensions/bubbleTail": {
+      "types": "./dist/extensions/bubbleTail.d.ts",
+      "default": "./dist/extensions/bubbleTail.js"
+    }
   },
   "scripts": {
     "prepare": "husky",
