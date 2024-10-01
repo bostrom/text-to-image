@@ -148,9 +148,8 @@ Each extension will receive the canvas returned by the previous extension. The c
 The following example extension draws a border around the image 5px from the edge using the configured text color.
 
 ```typescript
-import { generate, ComputedOptions } from 'text-to-image';
 // All types from 'node-canvas' are re-exported for convenience
-import { Canvas } from 'text-to-image/extensions';
+import { Canvas, ComputedOptions, generate } from 'text-to-image';
 
 const makeBorder = (canvas: Canvas, conf: ComputedOptions) => {
   const { width, height } = canvas;
