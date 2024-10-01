@@ -26,7 +26,7 @@ Originally part of a Twitter bot for publishing tweets longer than 140 character
 
 ## Try it
 
-Use [this CodeSandbox](https://codesandbox.io/s/text-to-image-v6-example-s5jegv?file=/src/index.ts) to try out text-to-image in your browser.
+Use [this CodeSandbox](https://codesandbox.io/p/sandbox/gtcmdy) to try out text-to-image in your browser.
 
 ## Installation
 

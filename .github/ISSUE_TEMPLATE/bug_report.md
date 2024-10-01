@@ -13,7 +13,7 @@ What version of the library are you using?
 A clear and concise description of what the bug is.
 
 **To Reproduce**
-Link to codesandbox.io or a snippet that will showcase the issue. Use [this sandbox](https://codesandbox.io/s/text-to-image-example-r8h1o?file=/src/index.ts) as base.
+Link to codesandbox.io or a snippet that will showcase the issue. Use [this sandbox](https://codesandbox.io/p/sandbox/gtcmdy) as base.
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
