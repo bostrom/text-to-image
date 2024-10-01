@@ -17,30 +17,22 @@
     "twitter"
   ],
   "license": "ISC",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "type": "commonjs",
+  "main": "index.js",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
-    "./extensions/fileWriter": {
-      "types": "./dist/extensions/fileWriter.d.ts",
-      "default": "./dist/extensions/fileWriter.js"
-    },
-    "./extensions/bubbleTail": {
-      "types": "./dist/extensions/bubbleTail.d.ts",
-      "default": "./dist/extensions/bubbleTail.js"
-    }
+    "./extensions/fileWriter": "./extensions/fileWriter.js",
+    "./extensions/bubbleTail": "./extensions/bubbleTail.js"
   },
   "scripts": {
     "prepare": "husky",
     "clean": "rimraf dist",
     "build": "npm run clean && tsc --build",
+    "package": "npm run build && cp package.json README.md LICENSE dist/",
     "test": "jest",
     "semantic-release": "semantic-release"
+  },
+  "release": {
+    "pkgRoot": "dist"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
