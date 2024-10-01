@@ -1,10 +1,8 @@
 {
   "extends": "@tsconfig/recommended/tsconfig.json",
   "compilerOptions": {
-    "strict": true,
-    "declaration": true,
     "outDir": "dist",
-    "preserveConstEnums": true,
+    "declaration": true,
     "removeComments": true,
     "sourceMap": true
   },
