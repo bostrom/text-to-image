@@ -20,6 +20,7 @@
   "type": "commonjs",
   "main": "index.js",
   "exports": {
+    ".": "./index.js",
     "./extensions/fileWriter": "./extensions/fileWriter.js",
     "./extensions/bubbleTail": "./extensions/bubbleTail.js"
   },
