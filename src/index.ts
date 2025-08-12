@@ -1,2 +1,2 @@
 export * from './textToImage';
-export * from './types';
+export * from './@types';

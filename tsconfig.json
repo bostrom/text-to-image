@@ -15,5 +15,5 @@
     // Interop Constraints
     "isolatedModules": true
   },
-  "include": ["src/**/*", "types/**/*"]
+  "include": ["src/**/*"]
 }
