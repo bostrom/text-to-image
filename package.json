@@ -28,7 +28,7 @@
     "prepare": "husky",
     "clean": "rimraf dist",
     "build": "npm run clean && tsc",
-    "prepack": "npm run build && cp package.json README.md LICENSE .npmignore dist/",
+    "package": "npm run build && cp package.json README.md LICENSE .npmignore dist/",
     "test": "jest",
     "semantic-release": "semantic-release"
   },
