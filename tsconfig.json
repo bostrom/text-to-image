@@ -3,10 +3,8 @@
   "compilerOptions": {
     // Emit
     "declaration": true,
-    "declarationMap": true,
     "outDir": "dist",
     "removeComments": true,
-    "sourceMap": true,
 
     // Type Checking
     "strict": true,
