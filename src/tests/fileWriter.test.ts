@@ -1,8 +1,8 @@
 import { glob } from 'glob';
 import fs from 'fs';
 import path from 'path';
-import { generate, generateSync } from '../src';
-import fileWriter from '../src/extensions/fileWriter';
+import { generate, generateSync } from '..';
+import fileWriter from '../extensions/fileWriter';
 
 describe('fileWriter extension', () => {
   afterEach(async () => {
@@ -39,7 +39,7 @@ describe('fileWriter extension', () => {
   });
 
   it('should support custom filepaths in sync mode', async () => {
-    const baseDir = path.join(process.cwd(), 'test', 'custom_path');
+    const baseDir = path.join(process.cwd(), 'src', 'tests', 'custom_path');
     const filePath = path.join(baseDir, 'to', '1_path_debug.png');
     generateSync('Hello world', {
       extensions: [
@@ -59,7 +59,7 @@ describe('fileWriter extension', () => {
   });
 
   it('should support custom filepaths in async mode', async () => {
-    const baseDir = path.join(process.cwd(), 'test', 'custom_path');
+    const baseDir = path.join(process.cwd(), 'src', 'tests', 'custom_path');
     const filePath = path.join(baseDir, 'to', '1_path_debug.png');
     await generate('Hello world', {
       extensions: [
@@ -72,7 +72,7 @@ describe('fileWriter extension', () => {
     const images = glob.sync(filePath);
     expect(images.length).toBe(1);
 
-    await fs.promises.rmdir(baseDir, {
+    await fs.promises.rm(baseDir, {
       recursive: true,
     });
   });

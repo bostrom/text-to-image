@@ -1,4 +1,4 @@
-import { generate } from '../../src/textToImage';
+import { generate } from '../../textToImage';
 import { readImageData, uriToBuf } from './readImageData';
 
 describe('readImageData', () => {

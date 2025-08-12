@@ -5,7 +5,12 @@ export type * from 'canvas';
 export type GenerateFunction<T extends GenerateOptions> = (
   content: string,
   config?: T,
-) => string | Promise<string>;
+) => Promise<string>;
+
+export type GenerateFunctionSync<T extends GenerateOptionsSync> = (
+  content: string,
+  config?: T,
+) => string;
 
 export interface GenerateOptions {
   bgColor?: string | CanvasGradient | CanvasPattern;
@@ -20,15 +25,15 @@ export interface GenerateOptions {
   textAlign?: CanvasTextAlign;
   textColor?: string;
   verticalAlign?: string;
-  extensions?: Array<Extension>;
+  extensions?: Extension[];
 }
 
 export interface GenerateOptionsAsync extends GenerateOptions {
-  extensions?: Array<Extension>;
+  extensions?: Extension[];
 }
 
 export interface GenerateOptionsSync extends GenerateOptions {
-  extensions?: Array<SyncExtension>;
+  extensions?: SyncExtension[];
 }
 
 export type SyncExtension = (canvas: Canvas, config: ComputedOptions) => Canvas;

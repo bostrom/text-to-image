@@ -1,8 +1,8 @@
 declare module 'readimage' {
-  export type Frame = {
+  export interface Frame {
     data: number[];
     delay?: number;
-  };
+  }
   export interface ReadimageData {
     height: number;
     width: number;
@@ -10,6 +10,6 @@ declare module 'readimage' {
   }
   export default function readimage(
     buf: Buffer,
-    cb: (err: Error, img: ReadimageData) => void,
+    cb: (err: Error | undefined, img: ReadimageData) => void,
   ): void;
 }

@@ -1,5 +1,5 @@
 import { createCanvas, Canvas } from 'canvas';
-import { ComputedOptions } from '../types';
+import { ComputedOptions } from '../@types';
 
 export interface BubbleTailOptions {
   width: number;

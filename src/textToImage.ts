@@ -4,7 +4,8 @@ import {
   ComputedOptions,
   GenerateOptionsAsync,
   GenerateOptionsSync,
-} from './types';
+  GenerateFunctionSync,
+} from './@types';
 
 const defaults = {
   bgColor: '#fff',
@@ -48,7 +49,7 @@ const createTextData = (
   // for the final image
   // OR
   // create a temporary canvas just for measuring how long the canvas needs to be
-  const textCanvas = canvas || createCanvas(maxWidth, 100);
+  const textCanvas = canvas ?? createCanvas(maxWidth, 100);
   const textContext = textCanvas.getContext('2d');
 
   // set the text alignment and start position
@@ -69,7 +70,7 @@ const createTextData = (
 
   // set text styles
   textContext.fillStyle = textColor;
-  textContext.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+  textContext.font = `${fontWeight.toString()} ${fontSize.toString()}px ${fontFamily}`;
   textContext.textBaseline = 'top';
 
   // split the text into words
@@ -83,9 +84,10 @@ const createTextData = (
   for (let n = 0; n < wordCount; n += 1) {
     let word: string = words[n];
 
-    if (/\n/.test(words[n])) {
+    if (words[n].includes('\n')) {
       const parts = words[n].split('\n');
       // use the first word before the newline(s)
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       word = parts.shift() || '';
       // mark the next word as beginning with newline
       addNewLines.push(n + 1);
@@ -103,7 +105,7 @@ const createTextData = (
 
     // if the line is marked as starting with a newline
     // OR if the line is too long, add a newline
-    if (addNewLines.indexOf(n) > -1 || (testLineWidth > maxWidth && n > 0)) {
+    if (addNewLines.includes(n) || (testLineWidth > maxWidth && n > 0)) {
       // if the line exceeded the width with one additional word
       // just paint the line without the word
       textContext.fillText(line, textX, textY);
@@ -142,7 +144,7 @@ const createImageCanvas = (content: string, conf: ComputedOptions) => {
   const { textHeight } = createTextData(
     content,
     // max width of text itself must be the image max width reduced by left-right margins
-    <ComputedOptions>{
+    {
       maxWidth: conf.maxWidth - conf.margin * 2,
       fontSize: conf.fontSize,
       lineHeight: conf.lineHeight,
@@ -152,13 +154,12 @@ const createImageCanvas = (content: string, conf: ComputedOptions) => {
       fontPath: conf.fontPath,
       fontWeight: conf.fontWeight,
       textAlign: conf.textAlign,
-    },
+    } as ComputedOptions,
   );
 
   const textHeightWithMargins = textHeight + conf.margin * 2;
 
   if (conf.customHeight && conf.customHeight < textHeightWithMargins) {
-    // eslint-disable-next-line no-console
     console.warn('Text is longer than customHeight, clipping will occur.');
   }
 
@@ -171,7 +172,7 @@ const createImageCanvas = (content: string, conf: ComputedOptions) => {
   const { textData } = createTextData(
     content,
     // max width of text itself must be the image max width reduced by left-right margins
-    <ComputedOptions>{
+    {
       maxWidth: conf.maxWidth - conf.margin * 2,
       fontSize: conf.fontSize,
       lineHeight: conf.lineHeight,
@@ -181,7 +182,7 @@ const createImageCanvas = (content: string, conf: ComputedOptions) => {
       fontPath: conf.fontPath,
       fontWeight: conf.fontWeight,
       textAlign: conf.textAlign,
-    },
+    } as ComputedOptions,
     canvas,
   );
   const ctx = canvas.getContext('2d');
@@ -232,7 +233,7 @@ export const generate: GenerateFunction<GenerateOptionsAsync> = async (
   return dataUrl;
 };
 
-export const generateSync: GenerateFunction<GenerateOptionsSync> = (
+export const generateSync: GenerateFunctionSync<GenerateOptionsSync> = (
   content,
   config,
 ) => {

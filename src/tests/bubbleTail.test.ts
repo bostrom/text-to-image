@@ -1,10 +1,10 @@
-import { generate } from '../src';
+import { generate } from '..';
 import {
   countWhitePixels,
   readImageData,
   uriToBuf,
 } from './helpers/readImageData';
-import bubbleTail from '../src/extensions/bubbleTail';
+import bubbleTail from '../extensions/bubbleTail';
 
 describe('bubbleTail extension', () => {
   it('should not print a speech bubble tail if zero height or width given', async () => {
