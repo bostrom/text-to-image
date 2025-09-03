@@ -99,8 +99,10 @@ const createTextData = (
     // append one word to the line and see
     // if its width exceeds the maxWidth
     // also trim the testLine since `line` will be empty in the beginning,
-    // causing a leading white space character otherwise
-    const testLine = `${line} ${word}`.replace(/^ +/, '').replace(/ +$/, '');
+    // causing a leading white space character otherwise.
+    // Use a negative lookbehind in the regex due to
+    // https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS
+    const testLine = `${line} ${word}`.replace(/^ +|(?<! ) +$/g, '');
     const testLineWidth = textContext.measureText(testLine).width;
 
     // if the line is marked as starting with a newline

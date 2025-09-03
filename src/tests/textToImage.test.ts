@@ -440,6 +440,38 @@ describe('the text-to-image generator', () => {
     takeSnapshot(uri);
   });
 
+  it('should trim spaces between words', async () => {
+    const spacesURI = await generate(
+      'Lorem     ipsum     dolor     sit     amet     consectetur     adipiscing     elit     sed     do     eiusmod     tempor     incididunt',
+      {
+        maxWidth: 400,
+      },
+    );
+    const nonBreakingSpacesURI = await generate(
+      `Lorem\xA0\xA0\xA0\xA0\xA0ipsum\xA0\xA0\xA0\xA0\xA0dolor\xA0\xA0\xA0\xA0\xA0sit\xA0\xA0\xA0\xA0\xA0amet\xA0\xA0\xA0\xA0\xA0consectetur\xA0\xA0\xA0\xA0\xA0adipiscing\xA0\xA0\xA0\xA0\xA0elit\xA0\xA0\xA0\xA0\xA0sed\xA0\xA0\xA0\xA0\xA0do\xA0\xA0\xA0\xA0\xA0eiusmod\xA0\xA0\xA0\xA0\xA0tempor\xA0\xA0\xA0\xA0\xA0incididunt`,
+      {
+        maxWidth: 400,
+      },
+    );
+
+    const imageData1 = await readImageData(uriToBuf(spacesURI));
+    const imageData2 = await readImageData(uriToBuf(nonBreakingSpacesURI));
+    // Expect image1 to be higher than image 2, since we have
+    // a fixed max width image and non breaking spaces
+    // won't wrap onto multiple lines
+    expect(imageData1.height).toBeGreaterThan(imageData2.height);
+
+    // The image with non breaking spaces should have more non-white pixels
+    // than the image with regular spaces, since they're removed
+    const whitePixels1 = countWhitePixels(imageData1, 0, 0, 85, 25);
+    const whitePixels2 = countWhitePixels(imageData2, 0, 0, 85, 25);
+
+    expect(whitePixels2).toBeGreaterThan(whitePixels1);
+
+    takeSnapshot(spacesURI);
+    takeSnapshot(nonBreakingSpacesURI);
+  });
+
   it('should not duplicate text with transparent background', async () => {
     const uri = await generate(`Cases in Kanyakum district`, {
       customHeight: 900,
