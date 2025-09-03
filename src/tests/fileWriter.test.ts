@@ -6,7 +6,7 @@ import fileWriter from '../extensions/fileWriter';
 
 describe('fileWriter extension', () => {
   afterEach(async () => {
-    // remove all pngs created by the fileWriter
+    // Remove all pngs created by the fileWriter
     const pngs = glob.sync(path.join(process.cwd(), '*.png'));
     await Promise.all(pngs.map((item) => fs.promises.unlink(item)));
   });

@@ -201,7 +201,7 @@ describe('the text-to-image generator', () => {
     const boldMap = extractColors(boldImg);
     const normalMap = extractColors(normalImg);
 
-    // check that we have more black and less white in the bold text image
+    // Check that we have more black and less white in the bold text image
     expect(boldMap['#000000']).toBeGreaterThan(normalMap['#000000']);
     expect(boldMap['#ffffff']).toBeLessThan(normalMap['#ffffff']);
 
@@ -216,7 +216,7 @@ describe('the text-to-image generator', () => {
 
     const rightAlignData = await readImageData(uriToBuf(uri));
 
-    // expect all pixels on left side (up to 150px) to be white
+    // Expect all pixels on left side (up to 150px) to be white
     const whitePixels = countWhitePixels(
       rightAlignData,
       0,
@@ -226,7 +226,7 @@ describe('the text-to-image generator', () => {
     );
     expect(whitePixels).toBe(rightAlignData.height * 150);
 
-    // expect some pixels on right side (from 150px) include non-white
+    // Expect some pixels on right side (from 150px) include non-white
     const nonWhitePixels = countWhitePixels(
       rightAlignData,
       150,
@@ -246,7 +246,7 @@ describe('the text-to-image generator', () => {
 
     const leftAlignData = await readImageData(uriToBuf(uri));
 
-    // expect all pixels on right side (from 250px) to be white
+    // Expect all pixels on right side (from 250px) to be white
     const whitePixels = countWhitePixels(
       leftAlignData,
       250,
@@ -256,7 +256,7 @@ describe('the text-to-image generator', () => {
     );
     expect(whitePixels).toBe(leftAlignData.height * 150);
 
-    // expect some pixels on left side (up to 250px) to be non-white
+    // Expect some pixels on left side (up to 250px) to be non-white
     const nonWhitePixels = countWhitePixels(
       leftAlignData,
       0,
@@ -276,7 +276,7 @@ describe('the text-to-image generator', () => {
 
     const centerAlignData = await readImageData(uriToBuf(uri));
 
-    // expect all pixels on left side (up to 80px) to be white
+    // Expect all pixels on left side (up to 80px) to be white
     const leftWhitePixels = countWhitePixels(
       centerAlignData,
       0,
@@ -286,7 +286,7 @@ describe('the text-to-image generator', () => {
     );
     expect(leftWhitePixels).toBe(centerAlignData.height * 80);
 
-    // expect all pixels on left side (last 80px) to be white
+    // Expect all pixels on right side (last 80px) to be white
     const rightWhitePixels = countWhitePixels(
       centerAlignData,
       centerAlignData.width - 80,
@@ -296,7 +296,7 @@ describe('the text-to-image generator', () => {
     );
     expect(rightWhitePixels).toBe(centerAlignData.height * 80);
 
-    // expect some pixels in the center (between 80 and width-80) to be non-white
+    // Expect some pixels in the center (between 80 and width-80) to be non-white
     const centerWhitePixels = countWhitePixels(
       centerAlignData,
       80,
@@ -348,7 +348,7 @@ describe('the text-to-image generator', () => {
 
     const verticalCenter = await readImageData(uriToBuf(uri));
 
-    // first 35 pixel rows should be white
+    // First 35 pixel rows should be white
     const topWhitePixels = countWhitePixels(
       verticalCenter,
       0,
@@ -358,7 +358,7 @@ describe('the text-to-image generator', () => {
     );
     expect(topWhitePixels).toBe(verticalCenter.width * 35);
 
-    // middle pixel rows should contain non-whites
+    // Middle pixel rows should contain non-whites
     const centerWhitePixels = countWhitePixels(
       verticalCenter,
       0,
@@ -370,7 +370,7 @@ describe('the text-to-image generator', () => {
       verticalCenter.width * (verticalCenter.height - 70),
     );
 
-    // bottom 35 rows should be white
+    // Bottom 35 rows should be white
     const bottomWhitePixels = countWhitePixels(
       verticalCenter,
       0,
@@ -385,14 +385,14 @@ describe('the text-to-image generator', () => {
 
   it('should support custom font paths', async () => {
     const uri = await generate('S', {
-      // use a font that renders a black square with the 'S' character
+      // Use a font that renders a black square with the 'S' character
       fontPath: path.resolve(__dirname, 'helpers', 'heydings_controls.ttf'),
       fontFamily: 'Heydings Controls',
       margin: 0,
     });
 
     const customFontData = await readImageData(uriToBuf(uri));
-    // check that we only have black pixels in the rendered square
+    // Check that we only have black pixels in the rendered square
     const whitePixels = countWhitePixels(customFontData, 5, 9, 13, 17);
     expect(whitePixels).toBe(0);
 
@@ -414,7 +414,7 @@ describe('the text-to-image generator', () => {
     );
 
     const imageData = await readImageData(uriToBuf(uri));
-    // check that we only have only white pixels in the top left corner
+    // Check that we only have only white pixels in the top left corner
     const whitePixels1 = countWhitePixels(imageData, 0, 0, 35, 35);
     expect(whitePixels1).toBe(35 * 35);
 
@@ -430,7 +430,7 @@ describe('the text-to-image generator', () => {
     );
 
     const imageData = await readImageData(uriToBuf(uri));
-    // check that we only have only white pixels in the top left corner
+    // Check that we only have only white pixels in the top left corner
     const whitePixels1 = countWhitePixels(imageData, 0, 0, 20, 30);
     expect(whitePixels1).toBe(20 * 30);
 
@@ -482,7 +482,7 @@ describe('the text-to-image generator', () => {
     const {
       frames: [{ data }],
     } = await readImageData(uriToBuf(uri));
-    // the top 100 pixel rows should not have any data
+    // The top 100 pixel rows should not have any data
     const topRowsData = data.slice(0, 400 * 100 * 4); // 400px wide, 100px high, 4 values per pixel
     const rgbaSum = topRowsData.reduce((acc, cur) => acc + cur, 0);
 
