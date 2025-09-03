@@ -6,6 +6,8 @@ on:
 jobs:
   pr-labeler:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - uses: TimonVS/pr-labeler-action@v5
         with:
