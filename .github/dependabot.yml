@@ -8,14 +8,28 @@ updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: 'monthly'
+      interval: 'weekly'
+    groups:
+      production-dependencies:
+        dependency-type: production
+      major-updates:
+        update-types:
+          - major
+      minor-and-patch-updates:
+        update-types:
+          - minor
+          - patch
     commit-message:
       prefix: 'chore'
       include: 'scope'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
-      interval: 'monthly'
+      interval: 'weekly'
+    groups:
+      all:
+        patterns:
+          - '*'
     commit-message:
       prefix: 'chore'
       include: 'scope'
