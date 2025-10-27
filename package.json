@@ -56,7 +56,7 @@
     "prettier": "^3.3.3",
     "readimage": "^1.1.1",
     "rimraf": "^6.0.1",
-    "semantic-release": "^24.1.1",
+    "semantic-release": "^25.0.1",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
