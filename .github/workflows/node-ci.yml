@@ -46,7 +46,7 @@ jobs:
   release:
     name: Release
     needs: coveralls
-    if: ${{ success() && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/next' || github.ref == 'refs/heads/beta') }}
+    if: ${{ success() && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/next' || github.ref == 'refs/heads/beta') }}
     runs-on: ubuntu-latest
     permissions:
       contents: write # to be able to publish a GitHub release
