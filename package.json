@@ -41,10 +41,10 @@
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
-    "@eslint/js": "^9.29.0",
+    "@eslint/js": "^10.0.1",
     "@tsconfig/node20": "^20.1.6",
     "@types/jest": "^30.0.0",
-    "eslint": "^9.29.0",
+    "eslint": "^10.0.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-import": "^2.30.0",
     "eslint-plugin-jest": "^29.0.1",
